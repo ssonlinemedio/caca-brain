@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CACA BRAIN - Reparado</title>
+    <title>CACA BRAIN - Logros Épicos</title>
     <style>
         /* ===== RESET Y BASE ===== */
         * {
@@ -90,8 +90,7 @@
             color: #ddd;
         }
         
-        .input-group input[type="text"],
-        .input-group input[type="password"] {
+        .input-group input[type="text"] {
             width: 100%;
             padding: 15px;
             border: 2px solid #333;
@@ -192,6 +191,13 @@
             border-radius: 12px;
             font-size: 11px;
             font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .p-lang-badge-mini:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(156, 39, 176, 0.4);
         }
         
         /* ===== GAME ===== */
@@ -210,7 +216,7 @@
         .user-info {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
         }
         
@@ -226,6 +232,38 @@
             border-radius: 15px;
             font-size: 13px;
             font-weight: bold;
+        }
+        
+        .p-lang-btn {
+            background: linear-gradient(135deg, #6C3CE1, #9C27B0);
+            border: 2px solid rgba(156, 39, 176, 0.3);
+            color: white;
+            padding: 4px 14px 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            height: 30px;
+            box-shadow: 0 0 20px rgba(156, 39, 176, 0.1);
+            white-space: nowrap;
+        }
+        
+        .p-lang-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 40px rgba(156, 39, 176, 0.4);
+            border-color: #9C27B0;
+        }
+        
+        .p-lang-btn:active {
+            transform: scale(0.92);
+        }
+        
+        .p-lang-btn .btn-emoji {
+            font-size: 16px;
         }
         
         .streak-display {
@@ -444,7 +482,7 @@
         .stat-item-full { grid-column: 1 / -1; }
         .stat-item-full span:last-child { font-size: 16px; }
         
-        /* ===== BARRAS DE PROGRESO - CON ETIQUETAS CLARAS ===== */
+        /* ===== BARRAS DE PROGRESO ===== */
         .progress-bars-container {
             display: flex;
             flex-direction: column;
@@ -512,7 +550,6 @@
             background: linear-gradient(90deg, #9C27B0, #ffd93d);
         }
         
-        .progress-bar-fill.xp-fill.low { background: #ffd93d; }
         .progress-bar-fill.power-fill.low { background: #4CAF50; }
         .progress-bar-fill.power-fill.medium { background: #ffd93d; }
         .progress-bar-fill.power-fill.high { background: #ff6b6b; }
@@ -616,6 +653,305 @@
         }
         
         /* ==========================================
+           MODAL IDIOMA P
+           ========================================== */
+        .p-lang-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: modalFadeIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            padding: 20px;
+        }
+        
+        .p-lang-modal.active {
+            display: flex;
+        }
+        
+        @keyframes modalFadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) rotate(-5deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+        
+        @keyframes modalGlitch {
+            0%, 100% { text-shadow: none; }
+            20% { text-shadow: 3px 0 #ff6b6b, -3px 0 #2196F3; }
+            40% { text-shadow: -3px 0 #ff6b6b, 3px 0 #2196F3; }
+            60% { text-shadow: 0 3px #ff6b6b, 0 -3px #2196F3; }
+            80% { text-shadow: 0 -3px #ff6b6b, 0 3px #2196F3; }
+        }
+        
+        .p-lang-modal-content {
+            background: linear-gradient(145deg, #1a1a2e, #2d1b69);
+            border: 3px solid #9C27B0;
+            border-radius: 30px;
+            max-width: 520px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 0 80px rgba(156, 39, 176, 0.3), inset 0 0 80px rgba(156, 39, 176, 0.05);
+            animation: modalContentIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+        
+        @keyframes modalContentIn {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .p-lang-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 24px 28px 16px;
+            border-bottom: 2px solid rgba(156, 39, 176, 0.2);
+            background: linear-gradient(135deg, rgba(156, 39, 176, 0.1), transparent);
+        }
+        
+        .p-lang-modal-title {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .p-lang-modal-icon {
+            font-size: 28px;
+            animation: bounce 2s infinite;
+        }
+        
+        .p-lang-modal-title h2 {
+            font-size: 28px;
+            margin: 0;
+            background: linear-gradient(135deg, #ffd93d, #ff6b6b, #9C27B0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            letter-spacing: 2px;
+            animation: modalGlitch 3s infinite;
+        }
+        
+        .p-highlight {
+            background: linear-gradient(135deg, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .p-lang-modal-subtitle {
+            font-size: 12px;
+            color: #888;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            -webkit-text-fill-color: #888;
+        }
+        
+        .p-lang-modal-close {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            color: #888;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .p-lang-modal-close:hover {
+            background: rgba(255, 23, 68, 0.2);
+            border-color: #ff1744;
+            color: #ff1744;
+            transform: rotate(90deg) scale(1.1);
+        }
+        
+        .p-lang-modal-body {
+            padding: 24px 28px 28px;
+        }
+        
+        .p-lang-intro {
+            background: rgba(156, 39, 176, 0.08);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #9C27B0;
+        }
+        
+        .p-lang-intro-text {
+            margin: 0;
+            color: #ccc;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .p-lang-intro-text strong {
+            color: #ffd93d;
+        }
+        
+        .p-lang-rule {
+            display: flex;
+            gap: 16px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .p-lang-rule-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+        
+        .p-lang-rule-text h3 {
+            margin: 0 0 6px 0;
+            color: #ffd93d;
+            font-size: 16px;
+        }
+        
+        .p-lang-rule-text p {
+            margin: 0;
+            color: #aaa;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .p-lang-rule-text .p-highlight {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .p-lang-examples {
+            background: rgba(0,0,0,0.3);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .p-lang-examples-title {
+            color: #888;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .p-lang-examples-title span {
+            font-size: 16px;
+        }
+        
+        .p-lang-example {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        
+        .p-lang-example:last-child {
+            border-bottom: none;
+        }
+        
+        .p-lang-example .original {
+            color: #888;
+            min-width: 60px;
+            font-size: 14px;
+        }
+        
+        .p-lang-example .arrow {
+            color: #444;
+            font-size: 14px;
+        }
+        
+        .p-lang-example .translated {
+            color: #ffd93d;
+            font-weight: bold;
+            font-size: 16px;
+            word-break: break-all;
+        }
+        
+        .p-lang-example .highlight {
+            color: #ff6b6b;
+            font-weight: bold;
+            animation: highlightPulse 1s ease-in-out infinite;
+        }
+        
+        @keyframes highlightPulse {
+            0%, 100% { color: #ff6b6b; }
+            50% { color: #ffd93d; }
+        }
+        
+        .p-lang-example .p-sound {
+            font-size: 12px;
+            color: #666;
+            margin-left: auto;
+            background: rgba(255,255,255,0.05);
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .p-lang-footer {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.05), rgba(156, 39, 176, 0.05));
+            border-radius: 16px;
+            padding: 14px 20px;
+            border: 1px dashed rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .p-lang-footer-icon {
+            font-size: 24px;
+            animation: bounce 1.5s infinite;
+        }
+        
+        .p-lang-footer-text {
+            margin: 0;
+            color: #888;
+            font-size: 13px;
+            line-height: 1.5;
+            font-style: italic;
+        }
+        
+        .p-lang-footer-text strong {
+            color: #ffd93d;
+            font-style: normal;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        /* ==========================================
            STATS SCREEN
            ========================================== */
         .stats-container,
@@ -658,10 +994,6 @@
         .stat-absurd-card h3 { font-size: 14px; color: #ffd93d; margin-bottom: 8px; }
         .stat-absurd-card p { font-size: 13px; color: #aaa; margin: 3px 0; line-height: 1.4; }
         
-        .stat-absurd-card-full {
-            grid-column: 1 / -1;
-        }
-        
         .stats-absurd-footer {
             grid-column: 1 / -1;
             text-align: center;
@@ -690,6 +1022,133 @@
         }
         
         .btn-back:hover { background: rgba(255,255,255,0.2); }
+        
+        /* ==========================================
+           ACHIEVEMENTS - MEJORADO
+           ========================================== */
+        .achievements-header-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,215,0,0.05);
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,215,0,0.1);
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .achievements-header-stats .stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: #aaa;
+        }
+        
+        .achievements-header-stats .stat .value {
+            color: #ffd93d;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .achievements-header-stats .stat .value.gold {
+            color: #FFD700;
+        }
+        
+        .achievements-grid {
+            display: grid;
+            gap: 8px;
+        }
+        
+        .achievement-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+            cursor: default;
+        }
+        
+        .achievement-card.unlocked {
+            border-color: rgba(255,215,0,0.3);
+            background: rgba(255,215,0,0.05);
+        }
+        
+        .achievement-card.unlocked .ach-icon {
+            animation: achPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes achPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .achievement-card.locked {
+            opacity: 0.5;
+        }
+        
+        .achievement-card .ach-icon {
+            font-size: 28px;
+            flex-shrink: 0;
+            width: 44px;
+            text-align: center;
+        }
+        
+        .achievement-card .ach-info {
+            flex: 1;
+        }
+        
+        .achievement-card .ach-info h4 {
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+        
+        .achievement-card .ach-info p {
+            font-size: 12px;
+            color: #888;
+            margin: 0;
+        }
+        
+        .achievement-card .ach-info .ach-progress {
+            font-size: 11px;
+            color: #ffd93d;
+            margin-top: 4px;
+        }
+        
+        .achievement-card .ach-info .ach-date {
+            font-size: 10px;
+            color: #666;
+        }
+        
+        .achievement-card .ach-badge {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .no-achievements {
+            text-align: center;
+            color: #666;
+            padding: 30px 0;
+        }
+        
+        .achievements-footer {
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+        }
+        
+        .achievements-footer .caca-frase {
+            font-style: italic;
+            color: #888;
+            font-size: 14px;
+        }
         
         /* ==========================================
            SETTINGS
@@ -875,81 +1334,6 @@
         .btn-clear:hover { background: rgba(255, 23, 68, 0.3); }
         
         /* ==========================================
-           ACHIEVEMENTS
-           ========================================== */
-        .achievements-absurd-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-        }
-        
-        .achievements-absurd-header .achievement-emoji { font-size: 32px; }
-        .achievements-absurd-header h2 { flex: 1; font-size: 20px; margin: 0; }
-        
-        .achievement-stats {
-            background: rgba(255,215,0,0.1);
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            border: 1px solid rgba(255,215,0,0.2);
-        }
-        
-        .achievement-stats span { color: #ffd93d; }
-        
-        .achievements-absurd-grid {
-            display: grid;
-            gap: 8px;
-        }
-        
-        .achievement-absurd-card {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 16px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 14px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.3s;
-        }
-        
-        .achievement-absurd-card.unlocked {
-            border-color: rgba(255,215,0,0.3);
-            background: rgba(255,215,0,0.05);
-        }
-        
-        .achievement-absurd-card.locked {
-            opacity: 0.6;
-        }
-        
-        .achievement-absurd-card .achievement-icon { font-size: 28px; flex-shrink: 0; }
-        .achievement-absurd-card .achievement-info { flex: 1; }
-        .achievement-absurd-card .achievement-info h4 { font-size: 14px; color: #fff; margin-bottom: 2px; }
-        .achievement-absurd-card .achievement-info p { font-size: 12px; color: #888; margin: 0; }
-        .achievement-absurd-card .achievement-info .achievement-progress { font-size: 12px; color: #ffd93d; margin-top: 4px; }
-        .achievement-absurd-card .achievement-info .achievement-date { font-size: 10px; color: #666; }
-        
-        .achievements-absurd-footer {
-            margin-top: 16px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            text-align: center;
-        }
-        
-        .achievements-absurd-footer .caca-frase {
-            font-style: italic;
-            color: #888;
-            font-size: 14px;
-        }
-        
-        .no-achievements {
-            text-align: center;
-            color: #666;
-            padding: 30px 0;
-        }
-        
-        /* ==========================================
            TOASTER
            ========================================== */
         #toasterContainer {
@@ -962,6 +1346,36 @@
             gap: 10px;
             max-width: 90%;
             pointer-events: none;
+        }
+        
+        .toaster-notification {
+            pointer-events: all;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            border: 2px solid #ff6b6b;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            max-width: 350px;
+            min-width: 200px;
+            animation: slideInRight 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            color: white;
+        }
+        
+        .toaster-notification.caca-compa {
+            border-color: #9C27B0;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.95), rgba(45, 27, 105, 0.95));
+        }
+        
+        .toaster-notification.achievement {
+            border-color: #FFD700;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.95), rgba(45, 27, 105, 0.95));
+            box-shadow: 0 0 60px rgba(255, 215, 0, 0.2);
+        }
+        
+        .toaster-notification.achievement .ach-title {
+            color: #FFD700;
+            font-weight: bold;
         }
         
         @keyframes slideInRight {
@@ -1083,6 +1497,81 @@
             .progress-bar-label .label-left .icon {
                 font-size: 12px;
             }
+            
+            .p-lang-btn {
+                font-size: 9px;
+                padding: 2px 8px 2px 6px;
+                height: 20px;
+                gap: 3px;
+            }
+            
+            .p-lang-btn .btn-emoji {
+                font-size: 10px;
+            }
+            
+            .p-lang-modal-content {
+                max-width: 100%;
+                border-radius: 20px;
+                margin: 10px;
+            }
+            
+            .p-lang-modal-header {
+                padding: 18px 20px 12px;
+            }
+            
+            .p-lang-modal-title h2 {
+                font-size: 22px;
+            }
+            
+            .p-lang-modal-body {
+                padding: 18px 20px 20px;
+            }
+            
+            .p-lang-example {
+                font-size: 14px;
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+            
+            .p-lang-example .translated {
+                font-size: 14px;
+                width: 100%;
+                padding-left: 10px;
+            }
+            
+            .p-lang-example .p-sound {
+                font-size: 10px;
+                margin-left: 0;
+            }
+            
+            .p-lang-rule {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .achievements-header-stats {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 4px;
+            }
+            
+            .achievements-header-stats .stat {
+                font-size: 12px;
+            }
+            
+            .achievement-card {
+                padding: 10px 12px;
+                gap: 10px;
+            }
+            
+            .achievement-card .ach-icon {
+                font-size: 22px;
+                width: 36px;
+            }
+            
+            .achievement-card .ach-info h4 {
+                font-size: 13px;
+            }
         }
     </style>
 </head>
@@ -1091,7 +1580,82 @@
     <!-- ===== TOASTER ===== -->
     <div id="toasterContainer"></div>
 
-    <!-- ===== REGISTER SCREEN ===== -->
+    <!-- ========================================== -->
+    <!-- MODAL IDIOMA P -->
+    <!-- ========================================== -->
+    <div id="pLangModal" class="p-lang-modal" style="display:none">
+        <div class="p-lang-modal-content">
+            <div class="p-lang-modal-header">
+                <div class="p-lang-modal-title">
+                    <span class="p-lang-modal-icon">🗣️</span>
+                    <h2>IDIOMA <span class="p-highlight">P</span></h2>
+                    <span class="p-lang-modal-subtitle">~ El lenguaje secreto de CACA COMPA ~</span>
+                </div>
+                <button class="p-lang-modal-close" id="pLangModalClose">✕</button>
+            </div>
+            <div class="p-lang-modal-body">
+                <div class="p-lang-intro">
+                    <p class="p-lang-intro-text">
+                        🎮 <strong>CACA COMPA</strong> habla en <strong class="p-highlight">"Idioma P"</strong>, 
+                        un lenguaje secreto que solo los verdaderos maestros del absurdo entienden.
+                    </p>
+                </div>
+                <div class="p-lang-rule">
+                    <div class="p-lang-rule-icon">📐</div>
+                    <div class="p-lang-rule-text">
+                        <h3>¿Cómo funciona?</h3>
+                        <p>Cada <strong>sílaba</strong> se transforma añadiendo <strong class="p-highlight">"P"</strong> + <strong class="p-highlight">vocal de la sílaba</strong></p>
+                    </div>
+                </div>
+                <div class="p-lang-examples">
+                    <div class="p-lang-examples-title">
+                        <span>💡</span> EJEMPLOS
+                    </div>
+                    <div class="p-lang-example">
+                        <span class="original">Hola</span>
+                        <span class="arrow">→</span>
+                        <span class="translated">Ho<span class="highlight">po</span>la<span class="highlight">pa</span></span>
+                        <span class="p-sound">🎵 ho-po-la-pa</span>
+                    </div>
+                    <div class="p-lang-example">
+                        <span class="original">Amigo</span>
+                        <span class="arrow">→</span>
+                        <span class="translated">A<span class="highlight">pa</span>mi<span class="highlight">pi</span>go<span class="highlight">po</span></span>
+                        <span class="p-sound">🎵 a-pa-mi-pi-go-po</span>
+                    </div>
+                    <div class="p-lang-example">
+                        <span class="original">CACA</span>
+                        <span class="arrow">→</span>
+                        <span class="translated">Ca<span class="highlight">pa</span>ca<span class="highlight">pa</span></span>
+                        <span class="p-sound">🎵 ca-pa-ca-pa</span>
+                    </div>
+                    <div class="p-lang-example">
+                        <span class="original">COMPA</span>
+                        <span class="arrow">→</span>
+                        <span class="translated">Co<span class="highlight">po</span>m<span class="highlight">pa</span>pa</span>
+                        <span class="p-sound">🎵 co-po-m-pa-pa</span>
+                    </div>
+                    <div class="p-lang-example">
+                        <span class="original">CACA BRAIN</span>
+                        <span class="arrow">→</span>
+                        <span class="translated">Ca<span class="highlight">pa</span>ca<span class="highlight">pa</span> Bra<span class="highlight">pa</span>in<span class="highlight">pi</span></span>
+                        <span class="p-sound">🎵 ca-pa-ca-pa bra-pa-in-pi</span>
+                    </div>
+                </div>
+                <div class="p-lang-footer">
+                    <span class="p-lang-footer-icon">💩</span>
+                    <p class="p-lang-footer-text">
+                        <strong>¡Escucha a CACA COMPA!</strong> Todos sus mensajes están en este idioma secreto. 
+                        <br>💡 <em>Pista: Cada "P" es una pista de que estás en modo absurdo</em>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- REGISTER SCREEN (SIN API KEY) -->
+    <!-- ========================================== -->
     <div id="registerScreen" class="screen active">
         <div class="register-container">
             <div class="header-gamer">
@@ -1120,31 +1684,29 @@
                     </div>
                 </div>
                 
-                <div class="input-group">
-                    <label>🔑 GROQ API KEY <span style="color:#666;font-weight:normal;font-size:12px;">(opcional)</span></label>
-                    <input type="password" id="groqKeyInput" placeholder="gsk_... - Para CACA COMPA Pro">
-                    <span class="hint">🎁 Desbloquea mensajes personalizados de CACA COMPA</span>
-                </div>
-                
                 <button id="startGameBtn" class="btn-register">
                     🚀 ¡EMPEZAR LA CACA!
                 </button>
                 
                 <div class="register-footer">
                     <span>🗣️ CACA COMPA habla en </span>
-                    <span class="p-lang-badge-mini">Idioma P 🗣️</span>
+                    <span class="p-lang-badge-mini" id="registerPLangInfo">Idioma P 🗣️ ℹ️</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ===== GAME SCREEN ===== -->
+    <!-- ========================================== -->
+    <!-- GAME SCREEN -->
+    <!-- ========================================== -->
     <div id="gameScreen" class="screen" style="display:none">
         
-        <!-- HEADER -->
         <header class="game-header">
             <div class="user-info">
                 <span class="username" id="usernameDisplay">ProCagador</span>
+                <button class="p-lang-btn" id="pLangModalBtn" title="🗣️ Descubre el idioma secreto de CACA COMPA">
+                    <span class="btn-emoji">🗣️</span> Idioma P 🤪
+                </button>
                 <span class="level-badge">🏆 Nv. <span id="levelDisplay">1</span></span>
             </div>
             <div class="streak-display">
@@ -1152,13 +1714,11 @@
             </div>
         </header>
         
-        <!-- VIGÍA NEUROADAPTATIVO -->
         <div id="vigiaStatus" class="vigia-status">
             <span class="vigia-emoji">🧠</span>
             <span class="vigia-message">Todo bajo control</span>
         </div>
         
-        <!-- PENSAMIENTO CON TIMER -->
         <div class="thought-container">
             <div id="thoughtDisplay" class="thought-bubble">
                 💭 Pensando...
@@ -1172,7 +1732,6 @@
             </div>
         </div>
         
-        <!-- BOTONES DE VOTO -->
         <div class="vote-buttons">
             <button id="voteCaca" class="btn-caca">
                 💩<span>CACA</span>
@@ -1184,7 +1743,6 @@
             </button>
         </div>
         
-        <!-- ESTADÍSTICAS -->
         <div class="stats-grid">
             <div class="stat-item caca-stat">
                 <span>💩 CACA</span>
@@ -1212,12 +1770,7 @@
             </div>
         </div>
         
-        <!-- ========================================== -->
-        <!-- BARRAS DE PROGRESO - CON ETIQUETAS CLARAS -->
-        <!-- ========================================== -->
         <div class="progress-bars-container">
-            
-            <!-- BARRA 1: XP (Nivel) -->
             <div class="progress-bar-item">
                 <div class="progress-bar-label">
                     <span class="label-left">
@@ -1231,8 +1784,6 @@
                     <div class="progress-bar-fill xp-fill" id="xpFill" style="width:0%"></div>
                 </div>
             </div>
-            
-            <!-- BARRA 2: Poder CACA -->
             <div class="progress-bar-item">
                 <div class="progress-bar-label">
                     <span class="label-left">
@@ -1246,8 +1797,6 @@
                     <div class="progress-bar-fill power-fill" id="poderCacaFill" style="width:0%"></div>
                 </div>
             </div>
-            
-            <!-- BARRA 3: Próximo Logro -->
             <div class="progress-bar-item">
                 <div class="progress-bar-label">
                     <span class="label-left">
@@ -1261,16 +1810,13 @@
                     <div class="progress-bar-fill achievement-fill" id="achievementFill" style="width:0%"></div>
                 </div>
             </div>
-            
         </div>
         
-        <!-- PRÓXIMO LOGRO (texto) -->
         <div id="nextAchievement" class="next-achievement">
             🔜 Próximo logro: <span id="nextAchievementName">Cargando...</span>
             <span class="progress" id="nextAchievementProgress">0/0</span>
         </div>
         
-        <!-- BOTONES DE ACCIÓN -->
         <div class="action-buttons">
             <button id="showStats" class="btn-action">📊 Stats</button>
             <button id="showSettings" class="btn-action">⚙️</button>
@@ -1280,7 +1826,6 @@
             <button id="resetGame" class="btn-action btn-danger">🔄 Reset</button>
         </div>
         
-        <!-- AYUDA DE TECLAS -->
         <div class="keyboard-help">
             <kbd>1</kbd> <span>CACA</span>
             <kbd>2</kbd> <span>CEREBRO</span>
@@ -1289,7 +1834,9 @@
         </div>
     </div>
 
-    <!-- ===== STATS SCREEN ===== -->
+    <!-- ========================================== -->
+    <!-- STATS SCREEN -->
+    <!-- ========================================== -->
     <div id="statsScreen" class="screen" style="display:none">
         <div class="stats-container">
             <h2>📊 ESTADÍSTICAS</h2>
@@ -1302,10 +1849,17 @@
         </div>
     </div>
 
-    <!-- ===== ACHIEVEMENTS SCREEN ===== -->
+    <!-- ========================================== -->
+    <!-- ACHIEVEMENTS SCREEN (MEJORADA) -->
+    <!-- ========================================== -->
     <div id="achievementsScreen" class="screen" style="display:none">
         <div class="achievements-container">
-            <h2>🏆 LOGROS</h2>
+            <h2>🏆 LOGROS ÉPICOS</h2>
+            <div id="achievementsHeaderStats" class="achievements-header-stats">
+                <div class="stat">🏆 Desbloqueados: <span class="value gold" id="achUnlockedCount">0</span>/<span id="achTotalCount">0</span></div>
+                <div class="stat">📊 Progreso: <span class="value" id="achProgressPercent">0</span>%</div>
+                <div class="stat">⭐ Puntos de logro: <span class="value gold" id="achTotalPoints">0</span></div>
+            </div>
             <div id="achievementsContent">
                 <p style="text-align:center;color:#666;padding:30px 0;">Cargando logros...</p>
             </div>
@@ -1315,7 +1869,9 @@
         </div>
     </div>
 
-    <!-- ===== SETTINGS SCREEN ===== -->
+    <!-- ========================================== -->
+    <!-- SETTINGS SCREEN -->
+    <!-- ========================================== -->
     <div id="settingsScreen" class="screen" style="display:none">
         <div class="settings-container">
             <h2>⚙️ CONFIGURACIÓN</h2>
@@ -1354,18 +1910,15 @@
             
             <div class="settings-section">
                 <h3>📦 IMPORTAR/EXPORTAR DATOS</h3>
-                
                 <div class="export-buttons">
                     <button id="exportDataBtn" class="btn-export">📤 Exportar Datos</button>
                     <button id="exportAIBtn" class="btn-export">🤖 Exportar para IA</button>
                 </div>
-                
                 <div class="import-section">
                     <label>📥 Importar desde JSON</label>
                     <textarea id="importTextarea" placeholder="Pega aquí el JSON exportado..." rows="3"></textarea>
                     <button id="importDataBtn" class="btn-import">📥 Importar</button>
                 </div>
-                
                 <div class="export-section" id="exportResult" style="display:none">
                     <label>📋 Datos exportados (copiar/pegar):</label>
                     <textarea id="exportTextarea" rows="4" readonly></textarea>
@@ -1374,7 +1927,6 @@
                         <button id="clearExportBtn" class="btn-clear">🗑️ Limpiar</button>
                     </div>
                 </div>
-                
                 <div class="import-result" id="importResult" style="display:none"></div>
             </div>
             
@@ -1390,6 +1942,156 @@
     <script>
         (function() {
             'use strict';
+            
+            // ============================================
+            // TRADUCTOR IDIOMA P
+            // ============================================
+            const PLangTranslator = {
+                vowels: ['a', 'e', 'i', 'o', 'u'],
+                translate: function(text) {
+                    if (!text || text.trim() === '') return '...';
+                    const words = text.split(' ');
+                    const translatedWords = words.map(word => this.translateWord(word));
+                    return translatedWords.join(' ');
+                },
+                translateWord: function(word) {
+                    const punctuation = word.match(/[.,!?;:]/g) || [];
+                    const cleanWord = word.replace(/[.,!?;:]/g, '');
+                    if (cleanWord.length === 0) return word;
+                    if (cleanWord.length === 1) return cleanWord + punctuation.join('');
+                    
+                    const syllables = this.splitIntoSyllables(cleanWord);
+                    const translated = syllables.map(syllable => {
+                        const lastVowel = this.getLastVowel(syllable);
+                        if (lastVowel) {
+                            return syllable + 'p' + lastVowel;
+                        }
+                        return syllable;
+                    }).join('');
+                    
+                    const result = this.preserveCase(cleanWord, translated);
+                    return result + punctuation.join('');
+                },
+                splitIntoSyllables: function(word) {
+                    const vowels = 'aeiouáéíóú';
+                    const syllables = [];
+                    let current = '';
+                    for (let i = 0; i < word.length; i++) {
+                        const char = word[i];
+                        current += char;
+                        if (vowels.includes(char.toLowerCase())) {
+                            const next = word[i + 1];
+                            if (!next || !vowels.includes(next.toLowerCase())) {
+                                syllables.push(current);
+                                current = '';
+                            }
+                        }
+                    }
+                    if (current) syllables.push(current);
+                    return syllables.length > 0 ? syllables : [word];
+                },
+                getLastVowel: function(syllable) {
+                    const vowels = 'aeiouáéíóú';
+                    for (let i = syllable.length - 1; i >= 0; i--) {
+                        if (vowels.includes(syllable[i].toLowerCase())) {
+                            return syllable[i].toLowerCase();
+                        }
+                    }
+                    return null;
+                },
+                preserveCase: function(original, translated) {
+                    if (original === original.toUpperCase()) {
+                        return translated.toUpperCase();
+                    }
+                    if (original[0] === original[0].toUpperCase()) {
+                        return translated.charAt(0).toUpperCase() + translated.slice(1);
+                    }
+                    return translated;
+                },
+                translateMessage: function(message) {
+                    const translated = this.translate(message);
+                    const emojis = ['💩', '🎮', '🔥', '🤪', '🚀', '💀', '⚡', '🌟', '💫', '✨'];
+                    const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+                    return `${translated} ${randomEmoji}`;
+                }
+            };
+            
+            // ============================================
+            // MENSAJES DE CACA COMPA
+            // ============================================
+            const cacaCompaMessages = [
+                '¡Hola, campeón!', '¡Qué bien te ves hoy!', 'El absurdo te hace más fuerte',
+                'Eres un pro de la caca mental', '¡Dale caña a ese cerebro!',
+                'La vida es un juego, juega bien', 'No pares de crear caca mental',
+                'Eres la leyenda de la estupidez', '¡Logro desbloqueado!',
+                'Sube el nivel de tu absurdez', 'El meta cambia, tú también',
+                '¡GG WP! Bien jugado', 'Tu CACA COMPA te quiere',
+                'Sigue así, campeón de la caca', 'El absurdo es el nuevo tryhard',
+                'Eres el protagonista de esta partida', '¡La caca mental es el nuevo meta!',
+                'No te rindas, el absurdo te necesita', 'Tu cerebro te agradece la caca mental',
+                'La estupidez es la nueva inteligencia', 'Eres el meme que el mundo necesita',
+                'Tu CACA COMPA cree en ti', 'Cada caca mental te hace más fuerte',
+                'El absurdo es el camino a la sabiduría', 'Sé tú mismo, aunque seas absurdo',
+                'La creatividad nace del caos mental', 'Tú puedes con cualquier caca que te propongas'
+            ];
+            
+            // ============================================
+            // SISTEMA DE LOGROS AMPLIADO (30+ LOGROS)
+            // ============================================
+            const achievementDefs = [
+                // === CACA LOGROS ===
+                { id: 'caca_10', name: '💩 Novato Cagón', threshold: 10, points: 5, icon: '💩', description: 'Haz 10 CACA mentales' },
+                { id: 'caca_50', name: '🔥 Cagón Experto', threshold: 50, points: 10, icon: '🔥', description: 'Haz 50 CACA mentales' },
+                { id: 'caca_100', name: '👑 Rey de la CACA', threshold: 100, points: 20, icon: '👑', description: 'Haz 100 CACA mentales' },
+                { id: 'caca_250', name: '💀 Maestro Cagón', threshold: 250, points: 35, icon: '💀', description: 'Haz 250 CACA mentales' },
+                { id: 'caca_500', name: '🙏 Dios de la CACA', threshold: 500, points: 50, icon: '🙏', description: 'Haz 500 CACA mentales' },
+                { id: 'caca_1000', name: '🌌 Emperador Cagón', threshold: 1000, points: 75, icon: '🌌', description: 'Haz 1000 CACA mentales' },
+                
+                // === CEREBRO LOGROS ===
+                { id: 'brain_10', name: '🧠 Novato Cerebral', threshold: 10, points: 5, icon: '🧠', description: 'Haz 10 CEREBRO mentales' },
+                { id: 'brain_50', name: '⚡ Genio Cerebral', threshold: 50, points: 10, icon: '⚡', description: 'Haz 50 CEREBRO mentales' },
+                { id: 'brain_100', name: '🌟 Mente Brillante', threshold: 100, points: 20, icon: '🌟', description: 'Haz 100 CEREBRO mentales' },
+                { id: 'brain_250', name: '🧠 Maestro Cerebral', threshold: 250, points: 35, icon: '🧠', description: 'Haz 250 CEREBRO mentales' },
+                { id: 'brain_500', name: '🙏 Dios del Cerebro', threshold: 500, points: 50, icon: '🙏', description: 'Haz 500 CEREBRO mentales' },
+                { id: 'brain_1000', name: '🌌 Emperador Cerebral', threshold: 1000, points: 75, icon: '🌌', description: 'Haz 1000 CEREBRO mentales' },
+                
+                // === RACHAS ===
+                { id: 'streak_5', name: '🔥 Racha 5', threshold: 5, points: 5, icon: '🔥', description: 'Consigue una racha de 5' },
+                { id: 'streak_10', name: '💀 Racha 10', threshold: 10, points: 10, icon: '💀', description: 'Consigue una racha de 10' },
+                { id: 'streak_25', name: '🚀 Racha 25', threshold: 25, points: 20, icon: '🚀', description: 'Consigue una racha de 25' },
+                { id: 'streak_50', name: '🌟 Racha 50', threshold: 50, points: 35, icon: '🌟', description: 'Consigue una racha de 50' },
+                { id: 'streak_100', name: '👑 Racha 100', threshold: 100, points: 50, icon: '👑', description: 'Consigue una racha de 100' },
+                
+                // === COMBOS ===
+                { id: 'combo_10', name: '⚡ Combo 10', threshold: 10, points: 10, icon: '⚡', description: 'Consigue un combo de 10' },
+                { id: 'combo_25', name: '💥 Combo 25', threshold: 25, points: 20, icon: '💥', description: 'Consigue un combo de 25' },
+                { id: 'combo_50', name: '🌪️ Combo 50', threshold: 50, points: 35, icon: '🌪️', description: 'Consigue un combo de 50' },
+                
+                // === NIVELES ===
+                { id: 'level_5', name: '🏅 Nivel 5', threshold: 5, points: 10, icon: '🏅', description: 'Alcanza el nivel 5' },
+                { id: 'level_10', name: '🥈 Nivel 10', threshold: 10, points: 20, icon: '🥈', description: 'Alcanza el nivel 10' },
+                { id: 'level_20', name: '🥇 Nivel 20', threshold: 20, points: 35, icon: '🥇', description: 'Alcanza el nivel 20' },
+                { id: 'level_50', name: '🏆 Nivel 50', threshold: 50, points: 50, icon: '🏆', description: 'Alcanza el nivel 50' },
+                
+                // === ABSURDO ===
+                { id: 'absurd_80', name: '🎭 Maestro del Absurdo', threshold: 80, points: 20, icon: '🎭', description: 'Alcanza 80% de absurdez' },
+                { id: 'absurd_95', name: '🙏 Dios del Absurdo', threshold: 95, points: 50, icon: '🙏', description: 'Alcanza 95% de absurdez' },
+                
+                // === DECISIONES ===
+                { id: 'decisions_50', name: '🤖 Aprendiz del Vigía', threshold: 50, points: 10, icon: '🤖', description: 'Toma 50 decisiones' },
+                { id: 'decisions_200', name: '🧠 Amigo del Vigía', threshold: 200, points: 25, icon: '🧠', description: 'Toma 200 decisiones' },
+                { id: 'decisions_500', name: '🤖 Mejor Amigo del Vigía', threshold: 500, points: 50, icon: '🤖', description: 'Toma 500 decisiones' },
+                
+                // === PRECISIÓN ===
+                { id: 'accuracy_70', name: '🎯 Tirador Preciso', threshold: 70, points: 15, icon: '🎯', description: 'Logra 70% de precisión' },
+                { id: 'accuracy_85', name: '🎯 Francotirador', threshold: 85, points: 30, icon: '🎯', description: 'Logra 85% de precisión' },
+                { id: 'accuracy_95', name: '🎯 Leyenda Precisa', threshold: 95, points: 50, icon: '🎯', description: 'Logra 95% de precisión' },
+                
+                // === ESPECIALES ===
+                { id: 'perfect_10', name: '💯 Perfecto 10', threshold: 10, points: 20, icon: '💯', description: '10 respuestas rápidas seguidas' },
+                { id: 'caca_balance', name: '⚖️ Balance Perfecto', threshold: 100, points: 30, icon: '⚖️', description: '100 CACA y 100 CEREBRO' },
+                { id: 'caca_master', name: '🎓 Maestro del Absurdo Total', threshold: 200, points: 50, icon: '🎓', description: '200 CACA y 200 CEREBRO' },
+            ];
             
             // ============================================
             // ESTADO DEL JUEGO
@@ -1415,12 +2117,12 @@
                     playTime: 0,
                     bestStreak: 0,
                     combo: 0,
-                    maxCombo: 0
+                    maxCombo: 0,
+                    perfectResponses: 0
                 },
                 user: {
                     username: 'ProCagador',
-                    absurdLevel: 50,
-                    groqApiKey: null
+                    absurdLevel: 50
                 },
                 cacaStats: {
                     poderCaca: 0,
@@ -1448,7 +2150,12 @@
                     rainbow: false
                 },
                 history: [],
-                unlockedAchievements: []
+                unlockedAchievements: [],
+                cacaCompa: {
+                    lastNotificationTime: 0,
+                    notificationInterval: null,
+                    isActive: true
+                }
             };
             
             // ============================================
@@ -1460,7 +2167,6 @@
                     username: document.getElementById('usernameInput'),
                     absurdLevel: document.getElementById('absurdLevelInput'),
                     absurdDisplay: document.getElementById('absurdDisplay'),
-                    groqKey: document.getElementById('groqKeyInput'),
                     startBtn: document.getElementById('startGameBtn')
                 },
                 game: {
@@ -1483,7 +2189,6 @@
                     vigia: document.getElementById('vigiaStatus'),
                     poderText: document.getElementById('poderCacaText'),
                     poderFill: document.getElementById('poderCacaFill'),
-                    powerStats: document.getElementById('cacaPowerStats'),
                     nextAchievement: document.getElementById('nextAchievement'),
                     nextAchievementName: document.getElementById('nextAchievementName'),
                     nextAchievementProgress: document.getElementById('nextAchievementProgress'),
@@ -1509,7 +2214,12 @@
                     content: document.getElementById('statsContent')
                 },
                 achievements: {
-                    content: document.getElementById('achievementsContent')
+                    content: document.getElementById('achievementsContent'),
+                    header: document.getElementById('achievementsHeaderStats'),
+                    unlockedCount: document.getElementById('achUnlockedCount'),
+                    totalCount: document.getElementById('achTotalCount'),
+                    progressPercent: document.getElementById('achProgressPercent'),
+                    totalPoints: document.getElementById('achTotalPoints')
                 },
                 settings: {
                     notifications: document.getElementById('notificationsToggle'),
@@ -1527,6 +2237,12 @@
                     copyExport: document.getElementById('copyExportBtn'),
                     clearExport: document.getElementById('clearExportBtn'),
                     importResult: document.getElementById('importResult')
+                },
+                modal: {
+                    pLang: document.getElementById('pLangModal'),
+                    pLangBtn: document.getElementById('pLangModalBtn'),
+                    pLangClose: document.getElementById('pLangModalClose'),
+                    registerInfo: document.getElementById('registerPLangInfo')
                 }
             };
             
@@ -1550,7 +2266,7 @@
                 if (el) el.textContent = value;
             }
             
-            function showToast(message, type = 'info', duration = 3000) {
+            function showToast(message, type = 'info', duration = 4000) {
                 const container = document.getElementById('toasterContainer');
                 if (!container) {
                     const div = document.createElement('div');
@@ -1560,28 +2276,35 @@
                 }
                 
                 const toast = document.createElement('div');
+                const isAchievement = type === 'achievement';
+                const isCacaCompa = type === 'caca-compa';
+                
                 const colors = {
                     success: 'rgba(76,175,80,0.2)',
                     error: 'rgba(255,23,68,0.2)',
                     warning: 'rgba(255,193,7,0.2)',
                     info: 'rgba(255,255,255,0.05)',
-                    caca: 'rgba(139,69,19,0.2)'
+                    'caca-compa': 'rgba(156,39,176,0.2)',
+                    'achievement': 'rgba(255,215,0,0.15)'
                 };
                 const borders = {
                     success: '#4CAF50',
                     error: '#ff1744',
                     warning: '#FFC107',
                     info: '#ff6b6b',
-                    caca: '#8B4513'
+                    'caca-compa': '#9C27B0',
+                    'achievement': '#FFD700'
                 };
                 const icons = {
                     success: '✅',
                     error: '❌',
                     warning: '⚠️',
                     info: '💩',
-                    caca: '💩'
+                    'caca-compa': '🗣️',
+                    'achievement': '🏆'
                 };
                 
+                toast.className = `toaster-notification ${isAchievement ? 'achievement' : ''} ${isCacaCompa ? 'caca-compa' : ''}`;
                 toast.style.cssText = `
                     pointer-events: all;
                     padding: 12px 16px;
@@ -1595,16 +2318,44 @@
                     animation: slideInRight 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
                     color: white;
                 `;
+                
+                let icon = icons[type] || '💩';
+                let title = type === 'achievement' ? '🏆 ¡LOGRO DESBLOQUEADO!' : 
+                           type === 'caca-compa' ? '🗣️ CACA COMPA' :
+                           type === 'success' ? '🎮 Éxito' : '💩 CACA';
+                
+                // Si es un logro, extraer el nombre
+                let displayMessage = message;
+                if (isAchievement) {
+                    const match = message.match(/^(.+?)(?:\s*\(([^)]+)\))?$/);
+                    if (match) {
+                        const name = match[1].trim();
+                        const desc = match[2] || '';
+                        displayMessage = `<span class="ach-title">${name}</span>${desc ? ' - ' + desc : ''}`;
+                    }
+                }
+                
+                if (isCacaCompa && state.settings.pLang) {
+                    displayMessage = PLangTranslator.translateMessage(message);
+                }
+                
                 toast.innerHTML = `
                     <div style="display:flex;align-items:flex-start;gap:10px;">
-                        <span style="font-size:24px;flex-shrink:0;">${icons[type] || '💩'}</span>
+                        <span style="font-size:24px;flex-shrink:0;">${icon}</span>
                         <div style="flex:1;">
-                            <p style="margin:0;font-size:14px;line-height:1.4;">${message}</p>
+                            <strong style="display:block;color:${isAchievement ? '#FFD700' : isCacaCompa ? '#ffd93d' : '#aaa'};font-size:13px;margin-bottom:2px;">${title}</strong>
+                            <p style="margin:0;font-size:14px;line-height:1.4;">${displayMessage}</p>
+                            ${isAchievement ? '<span style="display:inline-block;margin-top:4px;font-size:10px;color:#FFD700;">✨ +10 puntos de logro</span>' : ''}
+                            ${isCacaCompa ? '<span style="display:inline-block;margin-top:4px;font-size:10px;color:#888;">🗣️ Idioma P</span>' : ''}
                         </div>
                         <button style="background:none;border:none;color:#666;font-size:16px;cursor:pointer;padding:0 5px;flex-shrink:0;" onclick="this.parentElement.parentElement.remove()">✕</button>
                     </div>
                 `;
                 document.getElementById('toasterContainer').appendChild(toast);
+                
+                if (isAchievement) {
+                    showConfetti(40);
+                }
                 
                 setTimeout(() => {
                     if (toast.parentElement) {
@@ -1614,6 +2365,61 @@
                         }, 500);
                     }
                 }, duration);
+            }
+            
+            // ============================================
+            // CACA COMPA - NOTIFICACIONES
+            // ============================================
+            function showCacaCompaMessage() {
+                if (!state.cacaCompa.isActive) return;
+                if (!state.settings.notifications) return;
+                if (!state.game.isPlaying) return;
+                
+                const now = Date.now();
+                if (now - state.cacaCompa.lastNotificationTime < 30000) return;
+                
+                const message = cacaCompaMessages[Math.floor(Math.random() * cacaCompaMessages.length)];
+                showToast(message, 'caca-compa', 5000);
+                state.cacaCompa.lastNotificationTime = now;
+            }
+            
+            function startCacaCompaNotifications() {
+                if (state.cacaCompa.notificationInterval) {
+                    clearInterval(state.cacaCompa.notificationInterval);
+                }
+                state.cacaCompa.isActive = true;
+                state.cacaCompa.notificationInterval = setInterval(() => {
+                    showCacaCompaMessage();
+                }, 35000);
+            }
+            
+            function stopCacaCompaNotifications() {
+                if (state.cacaCompa.notificationInterval) {
+                    clearInterval(state.cacaCompa.notificationInterval);
+                    state.cacaCompa.notificationInterval = null;
+                }
+                state.cacaCompa.isActive = false;
+            }
+            
+            // ============================================
+            // MODAL IDIOMA P
+            // ============================================
+            function openPLangModal() {
+                const modal = DOM.modal.pLang;
+                if (modal) {
+                    modal.style.display = 'flex';
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+            
+            function closePLangModal() {
+                const modal = DOM.modal.pLang;
+                if (modal) {
+                    modal.style.display = 'none';
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
             }
             
             // ============================================
@@ -1670,20 +2476,8 @@
             }
             
             // ============================================
-            // SISTEMA DE LOGROS
+            // SISTEMA DE LOGROS - MEJORADO
             // ============================================
-            const achievementDefs = [
-                { id: 'caca_novice', name: '💩 Novato Cagón', threshold: 10, description: 'Haz 10 CACA mentales' },
-                { id: 'caca_pro', name: '🔥 Pro Cagón', threshold: 50, description: 'Haz 50 CACA mentales' },
-                { id: 'caca_legend', name: '👑 Leyenda Cagona', threshold: 100, description: 'Haz 100 CACA mentales' },
-                { id: 'brain_novice', name: '🧠 Novato Cerebral', threshold: 10, description: 'Haz 10 CEREBRO mentales' },
-                { id: 'brain_pro', name: '⚡ Pro Cerebral', threshold: 50, description: 'Haz 50 CEREBRO mentales' },
-                { id: 'brain_legend', name: '🌟 Leyenda Cerebral', threshold: 100, description: 'Haz 100 CEREBRO mentales' },
-                { id: 'streak_5', name: '🔥 Racha 5', threshold: 5, description: 'Consigue una racha de 5' },
-                { id: 'streak_10', name: '💀 Racha 10', threshold: 10, description: 'Consigue una racha de 10' },
-                { id: 'streak_25', name: '🚀 Racha 25', threshold: 25, description: 'Consigue una racha de 25' }
-            ];
-            
             function checkAchievements() {
                 const newAchievements = [];
                 const g = state.game;
@@ -1693,24 +2487,103 @@
                     
                     let current = 0;
                     switch (def.id) {
-                        case 'caca_novice': case 'caca_pro': case 'caca_legend':
-                            current = g.cacaPoints;
-                            break;
-                        case 'brain_novice': case 'brain_pro': case 'brain_legend':
-                            current = g.brainPoints;
-                            break;
-                        case 'streak_5': case 'streak_10': case 'streak_25':
-                            current = g.bestStreak;
-                            break;
+                        // CACA
+                        case 'caca_10': current = g.cacaPoints; break;
+                        case 'caca_50': current = g.cacaPoints; break;
+                        case 'caca_100': current = g.cacaPoints; break;
+                        case 'caca_250': current = g.cacaPoints; break;
+                        case 'caca_500': current = g.cacaPoints; break;
+                        case 'caca_1000': current = g.cacaPoints; break;
+                        // CEREBRO
+                        case 'brain_10': current = g.brainPoints; break;
+                        case 'brain_50': current = g.brainPoints; break;
+                        case 'brain_100': current = g.brainPoints; break;
+                        case 'brain_250': current = g.brainPoints; break;
+                        case 'brain_500': current = g.brainPoints; break;
+                        case 'brain_1000': current = g.brainPoints; break;
+                        // RACHAS
+                        case 'streak_5': current = g.bestStreak; break;
+                        case 'streak_10': current = g.bestStreak; break;
+                        case 'streak_25': current = g.bestStreak; break;
+                        case 'streak_50': current = g.bestStreak; break;
+                        case 'streak_100': current = g.bestStreak; break;
+                        // COMBOS
+                        case 'combo_10': current = g.maxCombo; break;
+                        case 'combo_25': current = g.maxCombo; break;
+                        case 'combo_50': current = g.maxCombo; break;
+                        // NIVELES
+                        case 'level_5': current = g.level; break;
+                        case 'level_10': current = g.level; break;
+                        case 'level_20': current = g.level; break;
+                        case 'level_50': current = g.level; break;
+                        // ABSURDO
+                        case 'absurd_80': current = g.absurdLevel; break;
+                        case 'absurd_95': current = g.absurdLevel; break;
+                        // DECISIONES
+                        case 'decisions_50': current = g.totalDecisions; break;
+                        case 'decisions_200': current = g.totalDecisions; break;
+                        case 'decisions_500': current = g.totalDecisions; break;
+                        // PRECISIÓN
+                        case 'accuracy_70': current = g.accuracy; break;
+                        case 'accuracy_85': current = g.accuracy; break;
+                        case 'accuracy_95': current = g.accuracy; break;
+                        // ESPECIALES
+                        case 'perfect_10': current = state.cacaStats.cacaPerfecta || 0; break;
+                        case 'caca_balance': current = Math.min(g.cacaPoints, g.brainPoints); break;
+                        case 'caca_master': current = Math.min(g.cacaPoints, g.brainPoints); break;
+                        default: continue;
                     }
                     
                     if (current >= def.threshold) {
-                        state.unlockedAchievements.push({ ...def, unlockedAt: Date.now() });
+                        state.unlockedAchievements.push({ 
+                            ...def, 
+                            unlockedAt: Date.now() 
+                        });
                         newAchievements.push(def);
                     }
                 }
                 
                 return newAchievements;
+            }
+            
+            function getAchievementProgress(def) {
+                const g = state.game;
+                let current = 0;
+                switch (def.id) {
+                    case 'caca_10': case 'caca_50': case 'caca_100': case 'caca_250': case 'caca_500': case 'caca_1000':
+                        current = g.cacaPoints; break;
+                    case 'brain_10': case 'brain_50': case 'brain_100': case 'brain_250': case 'brain_500': case 'brain_1000':
+                        current = g.brainPoints; break;
+                    case 'streak_5': case 'streak_10': case 'streak_25': case 'streak_50': case 'streak_100':
+                        current = g.bestStreak; break;
+                    case 'combo_10': case 'combo_25': case 'combo_50':
+                        current = g.maxCombo; break;
+                    case 'level_5': case 'level_10': case 'level_20': case 'level_50':
+                        current = g.level; break;
+                    case 'absurd_80': case 'absurd_95':
+                        current = g.absurdLevel; break;
+                    case 'decisions_50': case 'decisions_200': case 'decisions_500':
+                        current = g.totalDecisions; break;
+                    case 'accuracy_70': case 'accuracy_85': case 'accuracy_95':
+                        current = g.accuracy; break;
+                    case 'perfect_10':
+                        current = state.cacaStats.cacaPerfecta || 0; break;
+                    case 'caca_balance':
+                        current = Math.min(g.cacaPoints, g.brainPoints); break;
+                    case 'caca_master':
+                        current = Math.min(g.cacaPoints, g.brainPoints); break;
+                    default: return { current: 0, threshold: 0, progress: 0 };
+                }
+                const progress = Math.min(100, (current / def.threshold) * 100);
+                return { current, threshold: def.threshold, progress };
+            }
+            
+            function getTotalAchievementPoints() {
+                let total = 0;
+                for (const ach of state.unlockedAchievements) {
+                    total += ach.points || 0;
+                }
+                return total;
             }
             
             // ============================================
@@ -1720,7 +2593,6 @@
                 const g = state.game;
                 const stats = state.cacaStats;
                 
-                // Estadísticas principales
                 updateElement('scoreDisplay', g.score);
                 updateElement('levelDisplay', g.level);
                 updateElement('levelDisplay2', g.level);
@@ -1730,20 +2602,17 @@
                 updateElement('cacaCount', g.cacaPoints);
                 updateElement('cerebroCount', g.brainPoints);
                 
-                // Barra de XP
                 const xpPerLevel = 100;
                 const xpInLevel = g.xp % xpPerLevel;
                 const xpPercent = Math.min(100, (xpInLevel / xpPerLevel) * 100);
                 if (DOM.game.xpFill) DOM.game.xpFill.style.width = xpPercent + '%';
                 
-                // Poder CACA
                 const poder = Math.min(100, Math.round(
                     (g.cacaPoints * 0.25) + (g.streak * 1.5) + (g.level * 1.5)
                 ));
                 stats.poderCaca = poder;
                 if (DOM.game.poderFill) {
                     DOM.game.poderFill.style.width = poder + '%';
-                    // Cambiar color según nivel
                     DOM.game.poderFill.className = 'progress-bar-fill power-fill';
                     if (poder < 30) DOM.game.poderFill.classList.add('low');
                     else if (poder < 60) DOM.game.poderFill.classList.add('medium');
@@ -1751,10 +2620,8 @@
                 }
                 if (DOM.game.poderText) DOM.game.poderText.textContent = poder;
                 
-                // Próximo logro
                 updateNextAchievement();
                 
-                // Tiempo de juego
                 if (g.startTime) {
                     const elapsed = Math.floor((Date.now() - g.startTime) / 1000);
                     const minutes = Math.floor(elapsed / 60);
@@ -1771,21 +2638,9 @@
                 for (const def of achievementDefs) {
                     if (state.unlockedAchievements.some(a => a.id === def.id)) continue;
                     
-                    let current = 0;
-                    switch (def.id) {
-                        case 'caca_novice': case 'caca_pro': case 'caca_legend':
-                            current = g.cacaPoints;
-                            break;
-                        case 'brain_novice': case 'brain_pro': case 'brain_legend':
-                            current = g.brainPoints;
-                            break;
-                        case 'streak_5': case 'streak_10': case 'streak_25':
-                            current = g.bestStreak;
-                            break;
-                    }
-                    
-                    if (current < def.threshold) {
-                        const diff = def.threshold - current;
+                    const { current, threshold } = getAchievementProgress(def);
+                    if (current < threshold) {
+                        const diff = threshold - current;
                         if (diff < closestDiff) {
                             closestDiff = diff;
                             closest = { ...def, current, remaining: diff };
@@ -1793,7 +2648,6 @@
                     }
                 }
                 
-                // Actualizar barra de progreso del logro
                 const achievementFill = DOM.game.achievementFill;
                 const achievementText = DOM.game.achievementProgressText;
                 const nextName = DOM.game.nextAchievementName;
@@ -1803,7 +2657,7 @@
                     const pct = Math.min(100, (closest.current / closest.threshold) * 100);
                     if (achievementFill) achievementFill.style.width = pct + '%';
                     if (achievementText) achievementText.textContent = Math.round(pct) + '%';
-                    if (nextName) nextName.textContent = closest.name;
+                    if (nextName) nextName.textContent = closest.icon + ' ' + closest.name;
                     if (nextProgress) nextProgress.textContent = `${closest.current}/${closest.threshold}`;
                 } else {
                     if (achievementFill) achievementFill.style.width = '100%';
@@ -1820,7 +2674,6 @@
                 
                 const total = g.correctAnswers + g.incorrectAnswers;
                 const accuracy = total > 0 ? Math.round((g.correctAnswers / total) * 100) : 0;
-                const absurdity = g.absurdLevel || 50;
                 
                 let emoji = '🧠', msg = 'Todo bajo control', color = '#4CAF50';
                 if (accuracy > 70 && g.streak > 5) {
@@ -1842,7 +2695,7 @@
             }
             
             // ============================================
-            // TIMER - FUNCIÓN PRINCIPAL REPARADA
+            // TIMER
             // ============================================
             function updateTimer(elapsed, totalTime) {
                 const remaining = Math.max(0, totalTime - elapsed);
@@ -1954,7 +2807,7 @@
             }
             
             // ============================================
-            // TIMEOUT DEL PENSAMIENTO - CORREGIDO (error de sintaxis)
+            // TIMEOUT DEL PENSAMIENTO
             // ============================================
             function timeoutThought() {
                 if (!state.thought.isWaiting) return;
@@ -2166,10 +3019,12 @@
                     DOM.game.timeLeft.classList.remove('warning', 'danger');
                 }
                 
+                // VERIFICAR LOGROS (después de actualizar stats)
                 const newAchievements = checkAchievements();
                 for (const ach of newAchievements) {
-                    showToast(`🏆 ¡${ach.name}! ${ach.description}`, 'success', 5000);
-                    showConfetti(30);
+                    const msg = `${ach.name} (${ach.description})`;
+                    showToast(msg, 'achievement', 6000);
+                    showConfetti(50);
                     playAchievementSound();
                 }
                 
@@ -2210,7 +3065,7 @@
             // EFECTOS
             // ============================================
             function showConfetti(count = 20) {
-                const colors = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff1744', '#ff9100', '#9C27B0'];
+                const colors = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff1744', '#ff9100', '#9C27B0', '#FFD700'];
                 for (let i = 0; i < count; i++) {
                     const piece = document.createElement('div');
                     piece.style.cssText = `
@@ -2320,6 +3175,9 @@
                 const g = state.game;
                 const stats = state.cacaStats;
                 const total = g.correctAnswers + g.incorrectAnswers;
+                const totalPoints = getTotalAchievementPoints();
+                const unlockedCount = state.unlockedAchievements.length;
+                const totalAchievements = achievementDefs.length;
                 
                 const content = DOM.stats.content;
                 if (!content) return;
@@ -2346,7 +3204,8 @@
                         <div class="stat-absurd-card">
                             <span class="stat-emoji">🏆</span>
                             <h3>🏆 Logros</h3>
-                            <p>Desbloqueados: ${state.unlockedAchievements.length}/${achievementDefs.length}</p>
+                            <p>Desbloqueados: ${unlockedCount}/${totalAchievements}</p>
+                            <p>⭐ Puntos de logro: ${totalPoints}</p>
                             <p>Mejor racha: ${g.bestStreak}</p>
                             <p>Combo máximo: ${g.maxCombo}</p>
                             <p>Respuestas rápidas: ${stats.cacaPerfecta}</p>
@@ -2369,40 +3228,55 @@
             }
             
             // ============================================
-            // MOSTRAR LOGROS
+            // MOSTRAR LOGROS - MEJORADA
             // ============================================
             function showAchievements() {
                 const content = DOM.achievements.content;
                 if (!content) return;
                 
-                let html = `
-                    <div class="achievements-absurd-header">
-                        <span class="achievement-emoji">🏆</span>
-                        <h2>🎯 LOGROS</h2>
-                        <div class="achievement-stats">
-                            <span>${state.unlockedAchievements.length}/${achievementDefs.length}</span>
-                            <span>${achievementDefs.length > 0 ? Math.round((state.unlockedAchievements.length/achievementDefs.length)*100) : 0}%</span>
-                        </div>
-                    </div>
-                    <div class="achievements-absurd-grid">
-                `;
+                const unlockedCount = state.unlockedAchievements.length;
+                const totalAchievements = achievementDefs.length;
+                const totalPoints = getTotalAchievementPoints();
+                const progress = totalAchievements > 0 ? Math.round((unlockedCount / totalAchievements) * 100) : 0;
                 
-                if (achievementDefs.length === 0) {
+                // Actualizar header
+                if (DOM.achievements.unlockedCount) DOM.achievements.unlockedCount.textContent = unlockedCount;
+                if (DOM.achievements.totalCount) DOM.achievements.totalCount.textContent = totalAchievements;
+                if (DOM.achievements.progressPercent) DOM.achievements.progressPercent.textContent = progress;
+                if (DOM.achievements.totalPoints) DOM.achievements.totalPoints.textContent = totalPoints;
+                
+                let html = `<div class="achievements-grid">`;
+                
+                if (totalAchievements === 0) {
                     html += `<p class="no-achievements">🤪 ¡No hay logros disponibles!</p>`;
                 } else {
-                    for (const def of achievementDefs) {
+                    // Ordenar: primero los desbloqueados, luego por progreso
+                    const sorted = [...achievementDefs].sort((a, b) => {
+                        const aUnlocked = state.unlockedAchievements.some(ach => ach.id === a.id);
+                        const bUnlocked = state.unlockedAchievements.some(ach => ach.id === b.id);
+                        if (aUnlocked && !bUnlocked) return -1;
+                        if (!aUnlocked && bUnlocked) return 1;
+                        return 0;
+                    });
+                    
+                    for (const def of sorted) {
                         const unlocked = state.unlockedAchievements.some(a => a.id === def.id);
+                        const { current, threshold, progress: achProgress } = getAchievementProgress(def);
+                        const isUnlocked = unlocked;
+                        
                         html += `
-                            <div class="achievement-absurd-card ${unlocked ? 'unlocked' : 'locked'}">
-                                <div class="achievement-icon">${unlocked ? '✨' : '🔒'}</div>
-                                <div class="achievement-info">
+                            <div class="achievement-card ${isUnlocked ? 'unlocked' : 'locked'}">
+                                <div class="ach-icon">${def.icon || '🏆'}</div>
+                                <div class="ach-info">
                                     <h4>${def.name}</h4>
                                     <p>${def.description}</p>
-                                    <div class="achievement-progress">
-                                        ${unlocked ? '✅ ¡Desbloqueado!' : `🔜 ${def.threshold}`}
+                                    <div class="ach-progress">
+                                        ${isUnlocked ? '✅ ¡Desbloqueado! ⭐ +' + def.points + ' pts' : 
+                                         `🔜 ${Math.round(achProgress)}% (${current}/${threshold})`}
                                     </div>
-                                    ${unlocked ? `<span class="achievement-date">📅 ¡Conseguido!</span>` : ''}
+                                    ${isUnlocked ? `<div class="ach-date">📅 ¡Conseguido!</div>` : ''}
                                 </div>
+                                <div class="ach-badge">${isUnlocked ? '✨' : '🔒'}</div>
                             </div>
                         `;
                     }
@@ -2410,7 +3284,7 @@
                 
                 html += `
                     </div>
-                    <div class="achievements-absurd-footer">
+                    <div class="achievements-footer">
                         <p class="caca-frase">💩 "Cada logro es una caca mental más cerca de la grandeza"</p>
                     </div>
                 `;
@@ -2438,9 +3312,11 @@
                         clearTimeout(state.thought.timer);
                         state.thought.timer = null;
                     }
+                    stopCacaCompaNotifications();
                 } else {
                     btn.textContent = '⏸️ Pausa';
                     showToast('▶️ ¡Juego reanudado!', 'success', 1500);
+                    startCacaCompaNotifications();
                     if (!state.thought.isWaiting) {
                         generateThought();
                     } else if (state.thought.current) {
@@ -2513,6 +3389,7 @@
                 state.game.bestStreak = 0;
                 state.game.combo = 0;
                 state.game.maxCombo = 0;
+                state.game.perfectResponses = 0;
                 
                 state.cacaStats.poderCaca = 0;
                 state.cacaStats.rachaMaxCaca = 0;
@@ -2521,10 +3398,11 @@
                 state.cacaStats.repeticionesFallidas = 0;
                 state.cacaStats.aprendizaje = 0;
                 
+                // NO reseteamos los logros desbloqueados (son permanentes)
+                // pero resetamos el historial de pensamientos
                 usedThoughts = [];
                 thoughtHistory = [];
                 state.history = [];
-                state.unlockedAchievements = [];
                 state.thought.isWaiting = false;
                 state.thought.current = null;
                 state.game.isPaused = false;
@@ -2545,7 +3423,7 @@
                 updateVigiaStatus();
                 updateNextAchievement();
                 
-                showToast('🔄 ¡Juego reiniciado!', 'success', 2000);
+                showToast('🔄 ¡Juego reiniciado! (Logros conservados)', 'success', 2000);
                 
                 setTimeout(() => {
                     if (state.game.isPlaying && !state.game.isPaused) {
@@ -2561,7 +3439,11 @@
                 const g = state.game;
                 const total = g.correctAnswers + g.incorrectAnswers;
                 const accuracy = total > 0 ? Math.round((g.correctAnswers / total) * 100) : 0;
-                const text = `💩 CACA BRAIN - Mis stats:
+                const unlockedCount = state.unlockedAchievements.length;
+                const totalAchievements = achievementDefs.length;
+                const totalPoints = getTotalAchievementPoints();
+                
+                const text = `💩 CACA BRAIN - Mis stats épicos:
 🎮 Score: ${g.score}
 🏆 Nivel: ${g.level}
 ⭐ XP: ${g.xp}
@@ -2570,8 +3452,11 @@
 🧠 CEREBRO: ${g.brainPoints}
 🎯 Precisión: ${accuracy}%
 💪 CACA POWER: ${state.cacaStats.poderCaca}%
-🏆 Logros: ${state.unlockedAchievements.length}/${achievementDefs.length}
+🏆 Logros: ${unlockedCount}/${totalAchievements} (${totalPoints} pts)
+⚡ Combo máximo: ${g.maxCombo}
+👑 Mejor racha: ${g.bestStreak}
 ¡Únete al absurdo! 🚀`;
+                
                 if (navigator.share) {
                     navigator.share({ title: 'Mi CACA BRAIN', text }).catch(() => {});
                 } else {
@@ -2613,9 +3498,19 @@
                 s.rainbow = DOM.settings.rainbow?.checked ?? false;
                 localStorage.setItem('cacaBrainSettings', JSON.stringify(s));
                 document.body.classList.toggle('rainbow-mode', s.rainbow);
+                
+                if (s.notifications && state.game.isPlaying && !state.game.isPaused) {
+                    startCacaCompaNotifications();
+                } else {
+                    stopCacaCompaNotifications();
+                }
+                
                 showToast('⚙️ Configuración guardada', 'success', 1500);
             }
             
+            // ============================================
+            // EXPORTAR DATOS
+            // ============================================
             function exportData() {
                 const data = {
                     version: '2.0.0',
@@ -2732,11 +3627,9 @@
             function startGame() {
                 const username = DOM.register.username.value.trim() || 'ProCagador';
                 const absurdLevel = parseInt(DOM.register.absurdLevel.value) || 50;
-                const groqKey = DOM.register.groqKey.value || null;
                 
                 state.user.username = username;
                 state.user.absurdLevel = absurdLevel;
-                state.user.groqApiKey = groqKey;
                 state.game.isPlaying = true;
                 state.game.startTime = Date.now();
                 state.game.absurdLevel = absurdLevel;
@@ -2744,6 +3637,14 @@
                 
                 DOM.game.username.textContent = username;
                 showScreen('gameScreen');
+                
+                setTimeout(() => {
+                    const welcomeMsg = cacaCompaMessages[Math.floor(Math.random() * cacaCompaMessages.length)];
+                    showToast(welcomeMsg, 'caca-compa', 5000);
+                }, 1000);
+                
+                startCacaCompaNotifications();
+                
                 showToast(`🎮 ¡Bienvenido ${username}! La caca mental te espera`, 'success', 3000);
                 updateGameUI();
                 updateVigiaStatus();
@@ -2751,33 +3652,52 @@
                 
                 setTimeout(() => {
                     generateThought();
-                }, 1000);
+                }, 1500);
             }
             
             // ============================================
-            // INICIALIZAR EVENTOS
+            // INICIALIZAR
             // ============================================
             function init() {
+                // Modal Idioma P
+                if (DOM.modal.pLangBtn) {
+                    DOM.modal.pLangBtn.addEventListener('click', openPLangModal);
+                }
+                if (DOM.modal.pLangClose) {
+                    DOM.modal.pLangClose.addEventListener('click', closePLangModal);
+                }
+                if (DOM.modal.registerInfo) {
+                    DOM.modal.registerInfo.addEventListener('click', openPLangModal);
+                }
+                DOM.modal.pLang.addEventListener('click', function(e) {
+                    if (e.target === this) closePLangModal();
+                });
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && DOM.modal.pLang.style.display === 'flex') {
+                        closePLangModal();
+                    }
+                });
+                
+                // Slider
                 DOM.register.absurdLevel.addEventListener('input', function() {
                     DOM.register.absurdDisplay.textContent = this.value + '%';
                 });
                 
+                // Inicio
                 DOM.register.startBtn.addEventListener('click', startGame);
                 DOM.register.startBtn.addEventListener('touchstart', (e) => {
                     e.preventDefault();
                     startGame();
                 });
-                
                 DOM.register.username.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter') startGame();
                 });
-                DOM.register.groqKey.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter') startGame();
-                });
                 
+                // Votos
                 DOM.actions.voteCaca.addEventListener('click', () => vote('caca'));
                 DOM.actions.voteCerebro.addEventListener('click', () => vote('cerebro'));
                 
+                // Teclas
                 document.addEventListener('keydown', (e) => {
                     if (e.key === '1' || e.key === 'c' || e.key === 'C') {
                         e.preventDefault();
@@ -2799,12 +3719,14 @@
                     }
                 });
                 
+                // Acciones
                 DOM.actions.showStats.addEventListener('click', showStats);
                 DOM.actions.showAchievements.addEventListener('click', showAchievements);
                 DOM.actions.pause.addEventListener('click', togglePause);
                 DOM.actions.reset.addEventListener('click', resetGame);
                 DOM.actions.share.addEventListener('click', shareResult);
                 
+                // Settings
                 DOM.actions.showSettings.addEventListener('click', () => {
                     loadSettings();
                     showScreen('settingsScreen');
@@ -2840,6 +3762,7 @@
                     });
                 });
                 
+                // Cargar estado guardado
                 const saved = localStorage.getItem('cacaBrainGame');
                 if (saved) {
                     try {
@@ -2861,6 +3784,7 @@
                     } catch (e) {}
                 }
                 
+                // Auto-guardado
                 setInterval(() => {
                     localStorage.setItem('cacaBrainGame', JSON.stringify({
                         username: state.user.username,
@@ -2877,12 +3801,10 @@
                     }));
                 }, 30000);
                 
-                console.log('💩 CACA BRAIN - Reparado y funcionando!');
+                console.log('💩 CACA BRAIN - Con sistema de logros ampliado');
+                console.log('🏆 ' + achievementDefs.length + ' logros disponibles');
+                console.log('🗣️ CACA COMPA habla en Idioma P');
                 console.log('🎮 Teclas: 1=CACA, 2=CEREBRO, Espacio=Explosión, P=Pausa, R=Reset');
-                console.log('📊 Las 3 barras significan:');
-                console.log('   1️⃣ ⭐ NIVEL: Progreso de XP para subir de nivel');
-                console.log('   2️⃣ 💪 PODER CACA: Nivel de poder acumulado (0-100%)');
-                console.log('   3️⃣ 🏆 PRÓXIMO LOGRO: Progreso hacia el siguiente logro');
             }
             
             if (document.readyState === 'loading') {

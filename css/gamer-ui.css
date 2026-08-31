@@ -1,0 +1,59 @@
+/* Estilos gamer adicionales */
+
+/* Glitch effect para títulos */
+.glitch-text {
+  animation: glitch 3s infinite;
+}
+
+@keyframes glitch {
+  0%, 100% { text-shadow: none; }
+  20% { text-shadow: 2px 0 #ff6b6b, -2px 0 #2196F3; }
+  40% { text-shadow: -2px 0 #ff6b6b, 2px 0 #2196F3; }
+  60% { text-shadow: 0 2px #ff6b6b, 0 -2px #2196F3; }
+  80% { text-shadow: 0 -2px #ff6b6b, 0 2px #2196F3; }
+}
+
+/* Pulse de racha */
+.streak-pulse {
+  animation: streakPulse 1s ease-in-out infinite;
+}
+
+@keyframes streakPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); color: #ffd93d; }
+}
+
+/* Badge de nivel */
+.level-up-badge {
+  animation: levelUp 0.5s ease-out;
+}
+
+@keyframes levelUp {
+  0% { transform: scale(0) rotate(-180deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+/* Botones gamer con neon */
+.btn-neon {
+  border: 2px solid #ff6b6b !important;
+  box-shadow: 0 0 20px rgba(255, 107, 107, 0.3) !important;
+  transition: all 0.3s !important;
+}
+
+.btn-neon:hover {
+  box-shadow: 0 0 40px rgba(255, 107, 107, 0.6) !important;
+}
+
+/* Scrollbar gamer */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+  border-radius: 10px;
+}

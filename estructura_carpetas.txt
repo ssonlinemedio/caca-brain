@@ -1,0 +1,23 @@
+/caca-brain/
+├── index.html
+├── manifest.json
+├── sw.js
+├── css/
+│   ├── main.css
+│   ├── toaster.css
+│   ├── gamer-ui.css
+│   └── animations.css
+├── js/
+│   ├── modules/
+│   │   ├── DatabaseManager.js      # IndexedDB + LocalStorage
+│   │   ├── PLangTranslator.js      # Traductor idioma P
+│   │   ├── CacaCompa.js            # Sistema de notificaciones
+│   │   ├── VigiaNeuro.js           # Neuroadaptativo
+│   │   ├── GameEngine.js           # Lógica principal
+│   │   ├── AchievementSystem.js    # Logros
+│   │   └── UIManager.js            # Renderizado UI
+│   ├── app.js                      # Punto de entrada
+│   └── config.js                   # Configuración global
+├── server.js
+├── package.json
+└── .env

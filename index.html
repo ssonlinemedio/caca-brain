@@ -1,0 +1,2898 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CACA BRAIN - Reparado</title>
+    <style>
+        /* ===== RESET Y BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .screen {
+            display: none;
+            width: 100%;
+            min-height: 100vh;
+            padding: 20px;
+            animation: fadeIn 0.5s;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        /* ===== REGISTER ===== */
+        .register-container {
+            max-width: 450px;
+            margin: 40px auto 0;
+            padding: 30px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            border: 2px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        
+        .header-gamer {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header-gamer h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+        }
+        
+        .rank-badge {
+            display: inline-block;
+            background: #ff6b6b;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .subtitle {
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #ddd;
+        }
+        
+        .input-group input[type="text"],
+        .input-group input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #333;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.05);
+            color: white;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+        }
+        
+        .hint {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .absurd-slider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .absurd-slider input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 5px;
+            background: linear-gradient(90deg, #4CAF50, #ff6b6b, #ff1744);
+        }
+        
+        .absurd-slider input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background: #ffd93d;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 217, 61, 0.5);
+        }
+        
+        #absurdDisplay {
+            font-size: 20px;
+            font-weight: bold;
+            min-width: 50px;
+            text-align: center;
+        }
+        
+        .absurd-tags {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .btn-register {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #ffd93d);
+            color: #1a1a2e;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        
+        .btn-register:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        }
+        
+        .register-footer {
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 13px;
+            color: #888;
+            flex-wrap: wrap;
+        }
+        
+        .p-lang-badge-mini {
+            background: linear-gradient(135deg, #6C3CE1, #9C27B0);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        /* ===== GAME ===== */
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .username {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .level-badge {
+            background: #ffd93d;
+            color: #1a1a2e;
+            padding: 2px 12px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        
+        .streak-display {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+        
+        /* ===== VIGÍA ===== */
+        .vigia-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            border: 2px solid #4CAF50;
+            margin-bottom: 12px;
+            transition: all 0.3s;
+        }
+        
+        .vigia-emoji {
+            font-size: 24px;
+        }
+        
+        .vigia-message {
+            flex: 1;
+            font-size: 14px;
+        }
+        
+        /* ===== THOUGHT ===== */
+        .thought-container {
+            padding: 15px 10px;
+            margin-bottom: 15px;
+        }
+        
+        .thought-bubble {
+            font-size: 22px;
+            text-align: center;
+            padding: 25px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 25px;
+            border: 2px dashed rgba(255,255,255,0.2);
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            word-wrap: break-word;
+            transition: all 0.3s ease;
+        }
+        
+        .thought-bubble.feedback-success {
+            border-color: #4CAF50 !important;
+            background: rgba(76, 175, 80, 0.25) !important;
+            transform: scale(1.05);
+        }
+        
+        .thought-bubble.feedback-error {
+            border-color: #ff1744 !important;
+            background: rgba(255, 23, 68, 0.2) !important;
+            transform: scale(0.95);
+        }
+        
+        .thought-timer-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 8px;
+            padding: 0 4px;
+        }
+        
+        .thought-timer {
+            flex: 1;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .thought-timer-fill {
+            height: 100%;
+            width: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #ff6b6b, #ffd93d);
+            transition: width 0.1s linear;
+            position: relative;
+        }
+        
+        .thought-timer-fill.warning {
+            background: linear-gradient(90deg, #ff1744, #ff6b6b);
+        }
+        
+        .thought-timer-fill.danger {
+            background: #ff1744;
+            animation: timerPulse 0.5s ease-in-out infinite;
+        }
+        
+        @keyframes timerPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .time-left {
+            font-size: 13px;
+            font-weight: bold;
+            color: #ffd93d;
+            min-width: 50px;
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            transition: color 0.3s;
+        }
+        
+        .time-left.warning {
+            color: #ff6b6b;
+        }
+        
+        .time-left.danger {
+            color: #ff1744;
+            animation: timerPulse 0.5s ease-in-out infinite;
+        }
+        
+        /* ===== VOTE BUTTONS ===== */
+        .vote-buttons {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .vote-buttons button {
+            flex: 1;
+            padding: 16px 12px;
+            border: none;
+            border-radius: 18px;
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .vote-buttons button span {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .btn-caca {
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            color: white;
+            border: 2px solid rgba(139, 69, 19, 0.3);
+        }
+        
+        .btn-caca:hover {
+            transform: scale(1.03) rotate(-2deg);
+            box-shadow: 0 8px 30px rgba(139, 69, 19, 0.4);
+        }
+        
+        .btn-caca:active { transform: scale(0.95); }
+        
+        .btn-cerebro {
+            background: linear-gradient(135deg, #1565C0, #42A5F5);
+            color: white;
+            border: 2px solid rgba(21, 101, 192, 0.3);
+        }
+        
+        .btn-cerebro:hover {
+            transform: scale(1.03) rotate(2deg);
+            box-shadow: 0 8px 30px rgba(21, 101, 192, 0.4);
+        }
+        
+        .btn-cerebro:active { transform: scale(0.95); }
+        
+        .vote-key {
+            font-size: 10px;
+            color: rgba(255,255,255,0.3);
+            margin-top: 2px;
+        }
+        
+        /* ===== STATS GRID ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        
+        .stat-item {
+            background: rgba(255,255,255,0.03);
+            padding: 8px 10px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+        
+        .stat-item span:first-child {
+            display: block;
+            font-size: 10px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .stat-item span:last-child {
+            display: block;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 2px;
+            color: #fff;
+        }
+        
+        .stat-item.caca-stat span:last-child { color: #ff6b6b; }
+        .stat-item.brain-stat span:last-child { color: #4d96ff; }
+        .stat-item.xp-stat span:last-child { color: #ffd93d; }
+        .stat-item-full { grid-column: 1 / -1; }
+        .stat-item-full span:last-child { font-size: 16px; }
+        
+        /* ===== BARRAS DE PROGRESO - CON ETIQUETAS CLARAS ===== */
+        .progress-bars-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .progress-bar-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .progress-bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .progress-bar-label .label-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .progress-bar-label .label-left .icon {
+            font-size: 14px;
+        }
+        
+        .progress-bar-label .label-right {
+            font-weight: bold;
+            color: #aaa;
+        }
+        
+        .progress-bar-track {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+        
+        .progress-bar-fill.xp-fill {
+            background: linear-gradient(90deg, #ffd93d, #ff6b6b);
+        }
+        
+        .progress-bar-fill.power-fill {
+            background: linear-gradient(90deg, #4CAF50, #ffd93d, #ff6b6b);
+        }
+        
+        .progress-bar-fill.achievement-fill {
+            background: linear-gradient(90deg, #9C27B0, #ffd93d);
+        }
+        
+        .progress-bar-fill.xp-fill.low { background: #ffd93d; }
+        .progress-bar-fill.power-fill.low { background: #4CAF50; }
+        .progress-bar-fill.power-fill.medium { background: #ffd93d; }
+        .progress-bar-fill.power-fill.high { background: #ff6b6b; }
+        
+        /* ===== NEXT ACHIEVEMENT ===== */
+        .next-achievement {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: #aaa;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        
+        .next-achievement .progress {
+            color: #ffd93d;
+            font-weight: bold;
+        }
+        
+        /* ===== ACTION BUTTONS ===== */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+            gap: 6px;
+            margin: 10px 0;
+        }
+        
+        .btn-action {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 10px 4px;
+            color: #ccc;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            min-height: 44px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+        }
+        
+        .btn-action:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+            transform: scale(1.02);
+        }
+        
+        .btn-action:active { transform: scale(0.95); }
+        
+        .btn-action.btn-danger {
+            color: #ff6b6b;
+            border-color: rgba(255, 107, 107, 0.2);
+        }
+        
+        .btn-action.btn-danger:hover {
+            background: rgba(255, 107, 107, 0.1);
+            border-color: rgba(255, 107, 107, 0.4);
+        }
+        
+        .btn-action.btn-pause {
+            color: #ffd93d;
+            border-color: rgba(255, 217, 61, 0.2);
+        }
+        
+        .btn-action.btn-pause:hover {
+            background: rgba(255, 217, 61, 0.1);
+            border-color: rgba(255, 217, 61, 0.4);
+        }
+        
+        /* ===== KEYBOARD HELP ===== */
+        .keyboard-help {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+            font-size: 11px;
+            color: #666;
+            flex-wrap: wrap;
+        }
+        
+        .keyboard-help kbd {
+            background: rgba(255,255,255,0.08);
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-size: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-weight: bold;
+        }
+        
+        /* ==========================================
+           STATS SCREEN
+           ========================================== */
+        .stats-container,
+        .settings-container,
+        .achievements-container {
+            max-width: 450px;
+            margin: 20px auto;
+            padding: 25px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            border: 2px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .stats-container h2,
+        .settings-container h2,
+        .achievements-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .stats-absurd-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .stat-absurd-card {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .stat-absurd-card .stat-emoji { font-size: 28px; display: block; margin-bottom: 6px; }
+        .stat-absurd-card h3 { font-size: 14px; color: #ffd93d; margin-bottom: 8px; }
+        .stat-absurd-card p { font-size: 13px; color: #aaa; margin: 3px 0; line-height: 1.4; }
+        
+        .stat-absurd-card-full {
+            grid-column: 1 / -1;
+        }
+        
+        .stats-absurd-footer {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 10px;
+        }
+        
+        .stats-absurd-footer .caca-frase {
+            font-style: italic;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .btn-back {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .btn-back:hover { background: rgba(255,255,255,0.2); }
+        
+        /* ==========================================
+           SETTINGS
+           ========================================== */
+        .settings-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .settings-option label {
+            font-size: 15px;
+            color: #ddd;
+            font-weight: 500;
+        }
+        
+        .settings-option input[type="checkbox"] {
+            width: 48px;
+            height: 26px;
+            -webkit-appearance: none;
+            background: #333;
+            border-radius: 15px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex-shrink: 0;
+            border: 2px solid #444;
+        }
+        
+        .settings-option input[type="checkbox"]:checked {
+            background: #ff6b6b;
+            border-color: #ff6b6b;
+        }
+        
+        .settings-option input[type="checkbox"]::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        .settings-option input[type="checkbox"]:checked::before {
+            left: 24px;
+        }
+        
+        .settings-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.05);
+            margin: 16px 0;
+        }
+        
+        .settings-section h3 {
+            font-size: 16px;
+            color: #ffd93d;
+            margin-bottom: 12px;
+        }
+        
+        .export-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .btn-export {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.08);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+        }
+        
+        .btn-export:hover { background: rgba(255,255,255,0.15); }
+        
+        .import-section label {
+            display: block;
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 6px;
+        }
+        
+        .import-section textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #333;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            color: white;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 80px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .import-section textarea:focus {
+            outline: none;
+            border-color: #ff6b6b;
+        }
+        
+        .btn-import {
+            margin-top: 8px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #6C3CE1, #9C27B0);
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .btn-import:hover { transform: scale(1.02); box-shadow: 0 4px 20px rgba(156, 39, 176, 0.3); }
+        
+        .export-section {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .export-section label {
+            display: block;
+            font-size: 13px;
+            color: #aaa;
+            margin-bottom: 6px;
+        }
+        
+        .export-section textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 10px;
+            background: rgba(0,0,0,0.3);
+            color: #aaa;
+            font-size: 12px;
+            resize: vertical;
+            min-height: 100px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .export-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        
+        .btn-copy, .btn-clear {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.3s;
+        }
+        
+        .btn-copy {
+            background: rgba(33, 150, 243, 0.3);
+            color: #4d96ff;
+        }
+        
+        .btn-copy:hover { background: rgba(33, 150, 243, 0.5); }
+        
+        .btn-clear {
+            background: rgba(255, 23, 68, 0.2);
+            color: #ff1744;
+        }
+        
+        .btn-clear:hover { background: rgba(255, 23, 68, 0.3); }
+        
+        /* ==========================================
+           ACHIEVEMENTS
+           ========================================== */
+        .achievements-absurd-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .achievements-absurd-header .achievement-emoji { font-size: 32px; }
+        .achievements-absurd-header h2 { flex: 1; font-size: 20px; margin: 0; }
+        
+        .achievement-stats {
+            background: rgba(255,215,0,0.1);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            border: 1px solid rgba(255,215,0,0.2);
+        }
+        
+        .achievement-stats span { color: #ffd93d; }
+        
+        .achievements-absurd-grid {
+            display: grid;
+            gap: 8px;
+        }
+        
+        .achievement-absurd-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+        }
+        
+        .achievement-absurd-card.unlocked {
+            border-color: rgba(255,215,0,0.3);
+            background: rgba(255,215,0,0.05);
+        }
+        
+        .achievement-absurd-card.locked {
+            opacity: 0.6;
+        }
+        
+        .achievement-absurd-card .achievement-icon { font-size: 28px; flex-shrink: 0; }
+        .achievement-absurd-card .achievement-info { flex: 1; }
+        .achievement-absurd-card .achievement-info h4 { font-size: 14px; color: #fff; margin-bottom: 2px; }
+        .achievement-absurd-card .achievement-info p { font-size: 12px; color: #888; margin: 0; }
+        .achievement-absurd-card .achievement-info .achievement-progress { font-size: 12px; color: #ffd93d; margin-top: 4px; }
+        .achievement-absurd-card .achievement-info .achievement-date { font-size: 10px; color: #666; }
+        
+        .achievements-absurd-footer {
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+        }
+        
+        .achievements-absurd-footer .caca-frase {
+            font-style: italic;
+            color: #888;
+            font-size: 14px;
+        }
+        
+        .no-achievements {
+            text-align: center;
+            color: #666;
+            padding: 30px 0;
+        }
+        
+        /* ==========================================
+           TOASTER
+           ========================================== */
+        #toasterContainer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 90%;
+            pointer-events: none;
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(120%) scale(0.8); opacity: 0; }
+            to { transform: translateX(0) scale(1); opacity: 1; }
+        }
+        
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(120%) scale(0.8); opacity: 0; }
+        }
+        
+        @keyframes confettiFall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        
+        @keyframes cacaExplosion {
+            0% { transform: translate(0, 0) rotate(0deg) scale(0.5); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1.5); opacity: 0; }
+        }
+        
+        .rainbow-mode {
+            animation: rainbowBg 5s linear infinite;
+        }
+        
+        @keyframes rainbowBg {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        
+        /* ==========================================
+           RESPONSIVE
+           ========================================== */
+        @media (max-width: 480px) {
+            .action-buttons {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 4px;
+            }
+            
+            .btn-action {
+                font-size: 10px;
+                padding: 8px 2px;
+                min-height: 38px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 4px;
+            }
+            
+            .stat-item {
+                padding: 4px 6px;
+            }
+            
+            .stat-item span:last-child {
+                font-size: 15px;
+            }
+            
+            .stats-absurd-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+            
+            .stat-absurd-card {
+                padding: 10px;
+            }
+            
+            .stat-absurd-card h3 {
+                font-size: 12px;
+            }
+            
+            .stat-absurd-card p {
+                font-size: 11px;
+            }
+            
+            .stats-container,
+            .settings-container,
+            .achievements-container {
+                padding: 15px;
+                margin: 10px auto;
+            }
+            
+            .vote-buttons button {
+                font-size: 22px;
+                padding: 10px 8px;
+            }
+            
+            .vote-buttons button span {
+                font-size: 12px;
+            }
+            
+            .thought-bubble {
+                font-size: 18px;
+                padding: 18px;
+                min-height: 90px;
+            }
+            
+            .export-buttons {
+                flex-direction: column;
+            }
+            
+            .settings-option {
+                padding: 10px 12px;
+            }
+            
+            .settings-option label {
+                font-size: 13px;
+            }
+            
+            .progress-bars-container {
+                padding: 8px 10px;
+            }
+            
+            .progress-bar-label {
+                font-size: 10px;
+            }
+            
+            .progress-bar-label .label-left .icon {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== TOASTER ===== -->
+    <div id="toasterContainer"></div>
+
+    <!-- ===== REGISTER SCREEN ===== -->
+    <div id="registerScreen" class="screen active">
+        <div class="register-container">
+            <div class="header-gamer">
+                <h1>💩 CACA BRAIN</h1>
+                <div class="rank-badge">🔰 NUEVO RECLUTA</div>
+                <p class="subtitle">🧠 ¡Entrena tu cerebro en el absurdo!</p>
+            </div>
+            
+            <div class="register-form">
+                <div class="input-group">
+                    <label>👤 USERNAME</label>
+                    <input type="text" id="usernameInput" placeholder="ProCagador" maxlength="15" autocomplete="off">
+                    <span class="hint">(Máx 15 caracteres)</span>
+                </div>
+                
+                <div class="input-group">
+                    <label>📊 NIVEL DE ABSURDO</label>
+                    <div class="absurd-slider">
+                        <input type="range" id="absurdLevelInput" min="1" max="100" value="50">
+                        <span id="absurdDisplay">50%</span>
+                    </div>
+                    <div class="absurd-tags">
+                        <span>🤡 Noob</span>
+                        <span>🔥 Pro</span>
+                        <span>💀 Leyenda</span>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label>🔑 GROQ API KEY <span style="color:#666;font-weight:normal;font-size:12px;">(opcional)</span></label>
+                    <input type="password" id="groqKeyInput" placeholder="gsk_... - Para CACA COMPA Pro">
+                    <span class="hint">🎁 Desbloquea mensajes personalizados de CACA COMPA</span>
+                </div>
+                
+                <button id="startGameBtn" class="btn-register">
+                    🚀 ¡EMPEZAR LA CACA!
+                </button>
+                
+                <div class="register-footer">
+                    <span>🗣️ CACA COMPA habla en </span>
+                    <span class="p-lang-badge-mini">Idioma P 🗣️</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== GAME SCREEN ===== -->
+    <div id="gameScreen" class="screen" style="display:none">
+        
+        <!-- HEADER -->
+        <header class="game-header">
+            <div class="user-info">
+                <span class="username" id="usernameDisplay">ProCagador</span>
+                <span class="level-badge">🏆 Nv. <span id="levelDisplay">1</span></span>
+            </div>
+            <div class="streak-display">
+                🔥 <span id="streakDisplay">0</span>
+            </div>
+        </header>
+        
+        <!-- VIGÍA NEUROADAPTATIVO -->
+        <div id="vigiaStatus" class="vigia-status">
+            <span class="vigia-emoji">🧠</span>
+            <span class="vigia-message">Todo bajo control</span>
+        </div>
+        
+        <!-- PENSAMIENTO CON TIMER -->
+        <div class="thought-container">
+            <div id="thoughtDisplay" class="thought-bubble">
+                💭 Pensando...
+            </div>
+            
+            <div class="thought-timer-wrapper">
+                <div class="thought-timer">
+                    <div class="thought-timer-fill" id="timerFill" style="width:100%"></div>
+                </div>
+                <div class="time-left" id="timeLeftDisplay">⏱️ 8s</div>
+            </div>
+        </div>
+        
+        <!-- BOTONES DE VOTO -->
+        <div class="vote-buttons">
+            <button id="voteCaca" class="btn-caca">
+                💩<span>CACA</span>
+                <span class="vote-key">[1]</span>
+            </button>
+            <button id="voteCerebro" class="btn-cerebro">
+                🧠<span>CEREBRO</span>
+                <span class="vote-key">[2]</span>
+            </button>
+        </div>
+        
+        <!-- ESTADÍSTICAS -->
+        <div class="stats-grid">
+            <div class="stat-item caca-stat">
+                <span>💩 CACA</span>
+                <span id="cacaCount">0</span>
+            </div>
+            <div class="stat-item brain-stat">
+                <span>🧠 CEREBRO</span>
+                <span id="cerebroCount">0</span>
+            </div>
+            <div class="stat-item xp-stat">
+                <span>⭐ XP</span>
+                <span id="xpDisplay">0</span>
+            </div>
+            <div class="stat-item">
+                <span>🏆 PUNTOS</span>
+                <span id="scoreDisplay">0</span>
+            </div>
+            <div class="stat-item stat-item-full">
+                <span>💨 CACA/min</span>
+                <span id="cacaPerMinute">0/min</span>
+            </div>
+            <div class="stat-item stat-item-full">
+                <span>⏱️ Tiempo</span>
+                <span id="playTime">0m 0s</span>
+            </div>
+        </div>
+        
+        <!-- ========================================== -->
+        <!-- BARRAS DE PROGRESO - CON ETIQUETAS CLARAS -->
+        <!-- ========================================== -->
+        <div class="progress-bars-container">
+            
+            <!-- BARRA 1: XP (Nivel) -->
+            <div class="progress-bar-item">
+                <div class="progress-bar-label">
+                    <span class="label-left">
+                        <span class="icon">⭐</span> NIVEL <span id="levelDisplay2">1</span>
+                    </span>
+                    <span class="label-right">
+                        <span id="xpDisplay2">0</span>/100 XP
+                    </span>
+                </div>
+                <div class="progress-bar-track">
+                    <div class="progress-bar-fill xp-fill" id="xpFill" style="width:0%"></div>
+                </div>
+            </div>
+            
+            <!-- BARRA 2: Poder CACA -->
+            <div class="progress-bar-item">
+                <div class="progress-bar-label">
+                    <span class="label-left">
+                        <span class="icon">💪</span> PODER CACA
+                    </span>
+                    <span class="label-right">
+                        <span id="poderCacaText">0</span>%
+                    </span>
+                </div>
+                <div class="progress-bar-track">
+                    <div class="progress-bar-fill power-fill" id="poderCacaFill" style="width:0%"></div>
+                </div>
+            </div>
+            
+            <!-- BARRA 3: Próximo Logro -->
+            <div class="progress-bar-item">
+                <div class="progress-bar-label">
+                    <span class="label-left">
+                        <span class="icon">🏆</span> PRÓXIMO LOGRO
+                    </span>
+                    <span class="label-right">
+                        <span id="achievementProgressText">0%</span>
+                    </span>
+                </div>
+                <div class="progress-bar-track">
+                    <div class="progress-bar-fill achievement-fill" id="achievementFill" style="width:0%"></div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- PRÓXIMO LOGRO (texto) -->
+        <div id="nextAchievement" class="next-achievement">
+            🔜 Próximo logro: <span id="nextAchievementName">Cargando...</span>
+            <span class="progress" id="nextAchievementProgress">0/0</span>
+        </div>
+        
+        <!-- BOTONES DE ACCIÓN -->
+        <div class="action-buttons">
+            <button id="showStats" class="btn-action">📊 Stats</button>
+            <button id="showSettings" class="btn-action">⚙️</button>
+            <button id="showAchievements" class="btn-action">🏆</button>
+            <button id="shareResult" class="btn-action">📢</button>
+            <button id="pauseGame" class="btn-action btn-pause">⏸️ Pausa</button>
+            <button id="resetGame" class="btn-action btn-danger">🔄 Reset</button>
+        </div>
+        
+        <!-- AYUDA DE TECLAS -->
+        <div class="keyboard-help">
+            <kbd>1</kbd> <span>CACA</span>
+            <kbd>2</kbd> <span>CEREBRO</span>
+            <kbd>Espacio</kbd> <span>🎆 Efecto</span>
+            <kbd>P</kbd> <span>⏸️ Pausa</span>
+        </div>
+    </div>
+
+    <!-- ===== STATS SCREEN ===== -->
+    <div id="statsScreen" class="screen" style="display:none">
+        <div class="stats-container">
+            <h2>📊 ESTADÍSTICAS</h2>
+            <div id="statsContent">
+                <p style="text-align:center;color:#666;padding:30px 0;">Cargando estadísticas...</p>
+            </div>
+            <button class="btn-back" onclick="document.getElementById('statsScreen').style.display='none'">
+                ← Volver al juego
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== ACHIEVEMENTS SCREEN ===== -->
+    <div id="achievementsScreen" class="screen" style="display:none">
+        <div class="achievements-container">
+            <h2>🏆 LOGROS</h2>
+            <div id="achievementsContent">
+                <p style="text-align:center;color:#666;padding:30px 0;">Cargando logros...</p>
+            </div>
+            <button class="btn-back" onclick="document.getElementById('achievementsScreen').style.display='none'">
+                ← Volver al juego
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== SETTINGS SCREEN ===== -->
+    <div id="settingsScreen" class="screen" style="display:none">
+        <div class="settings-container">
+            <h2>⚙️ CONFIGURACIÓN</h2>
+            
+            <div class="settings-option">
+                <label>🔔 Notificaciones</label>
+                <input type="checkbox" id="notificationsToggle" checked>
+            </div>
+            
+            <div class="settings-option">
+                <label>📳 Vibración</label>
+                <input type="checkbox" id="vibrationToggle" checked>
+            </div>
+            
+            <div class="settings-option">
+                <label>🔊 Efectos de sonido</label>
+                <input type="checkbox" id="soundToggle" checked>
+            </div>
+            
+            <div class="settings-option">
+                <label>🗣️ Idioma P</label>
+                <input type="checkbox" id="pLangToggle" checked>
+            </div>
+            
+            <div class="settings-option">
+                <label>✨ Efectos de partículas</label>
+                <input type="checkbox" id="particleEffects" checked>
+            </div>
+            
+            <div class="settings-option">
+                <label>🌈 Fondo arcoíris</label>
+                <input type="checkbox" id="rainbowBackground">
+            </div>
+            
+            <div class="settings-divider"></div>
+            
+            <div class="settings-section">
+                <h3>📦 IMPORTAR/EXPORTAR DATOS</h3>
+                
+                <div class="export-buttons">
+                    <button id="exportDataBtn" class="btn-export">📤 Exportar Datos</button>
+                    <button id="exportAIBtn" class="btn-export">🤖 Exportar para IA</button>
+                </div>
+                
+                <div class="import-section">
+                    <label>📥 Importar desde JSON</label>
+                    <textarea id="importTextarea" placeholder="Pega aquí el JSON exportado..." rows="3"></textarea>
+                    <button id="importDataBtn" class="btn-import">📥 Importar</button>
+                </div>
+                
+                <div class="export-section" id="exportResult" style="display:none">
+                    <label>📋 Datos exportados (copiar/pegar):</label>
+                    <textarea id="exportTextarea" rows="4" readonly></textarea>
+                    <div class="export-actions">
+                        <button id="copyExportBtn" class="btn-copy">📋 Copiar</button>
+                        <button id="clearExportBtn" class="btn-clear">🗑️ Limpiar</button>
+                    </div>
+                </div>
+                
+                <div class="import-result" id="importResult" style="display:none"></div>
+            </div>
+            
+            <button class="btn-back" onclick="document.getElementById('settingsScreen').style.display='none'">
+                ← Volver al juego
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- SCRIPTS -->
+    <!-- ========================================== -->
+    <script>
+        (function() {
+            'use strict';
+            
+            // ============================================
+            // ESTADO DEL JUEGO
+            // ============================================
+            const state = {
+                game: {
+                    isPlaying: false,
+                    isPaused: false,
+                    score: 0,
+                    level: 1,
+                    xp: 0,
+                    streak: 0,
+                    cacaPoints: 0,
+                    brainPoints: 0,
+                    totalDecisions: 0,
+                    correctAnswers: 0,
+                    incorrectAnswers: 0,
+                    accuracy: 0,
+                    avgResponseTime: 0,
+                    responseTimes: [],
+                    absurdLevel: 50,
+                    startTime: null,
+                    playTime: 0,
+                    bestStreak: 0,
+                    combo: 0,
+                    maxCombo: 0
+                },
+                user: {
+                    username: 'ProCagador',
+                    absurdLevel: 50,
+                    groqApiKey: null
+                },
+                cacaStats: {
+                    poderCaca: 0,
+                    rachaMaxCaca: 0,
+                    cacaPerfecta: 0,
+                    repeticionesExitosas: 0,
+                    repeticionesFallidas: 0,
+                    aprendizaje: 0
+                },
+                thought: {
+                    current: null,
+                    isWaiting: false,
+                    timer: null,
+                    timeUpdate: null,
+                    startTime: 0,
+                    totalTime: 8000,
+                    elapsedTime: 0
+                },
+                settings: {
+                    notifications: true,
+                    vibration: true,
+                    sound: true,
+                    pLang: true,
+                    particles: true,
+                    rainbow: false
+                },
+                history: [],
+                unlockedAchievements: []
+            };
+            
+            // ============================================
+            // ELEMENTOS DOM
+            // ============================================
+            const DOM = {
+                register: {
+                    screen: document.getElementById('registerScreen'),
+                    username: document.getElementById('usernameInput'),
+                    absurdLevel: document.getElementById('absurdLevelInput'),
+                    absurdDisplay: document.getElementById('absurdDisplay'),
+                    groqKey: document.getElementById('groqKeyInput'),
+                    startBtn: document.getElementById('startGameBtn')
+                },
+                game: {
+                    screen: document.getElementById('gameScreen'),
+                    username: document.getElementById('usernameDisplay'),
+                    level: document.getElementById('levelDisplay'),
+                    level2: document.getElementById('levelDisplay2'),
+                    streak: document.getElementById('streakDisplay'),
+                    score: document.getElementById('scoreDisplay'),
+                    xp: document.getElementById('xpDisplay'),
+                    xp2: document.getElementById('xpDisplay2'),
+                    xpFill: document.getElementById('xpFill'),
+                    cacaCount: document.getElementById('cacaCount'),
+                    cerebroCount: document.getElementById('cerebroCount'),
+                    cacaPerMinute: document.getElementById('cacaPerMinute'),
+                    playTime: document.getElementById('playTime'),
+                    thought: document.getElementById('thoughtDisplay'),
+                    timerFill: document.getElementById('timerFill'),
+                    timeLeft: document.getElementById('timeLeftDisplay'),
+                    vigia: document.getElementById('vigiaStatus'),
+                    poderText: document.getElementById('poderCacaText'),
+                    poderFill: document.getElementById('poderCacaFill'),
+                    powerStats: document.getElementById('cacaPowerStats'),
+                    nextAchievement: document.getElementById('nextAchievement'),
+                    nextAchievementName: document.getElementById('nextAchievementName'),
+                    nextAchievementProgress: document.getElementById('nextAchievementProgress'),
+                    achievementFill: document.getElementById('achievementFill'),
+                    achievementProgressText: document.getElementById('achievementProgressText')
+                },
+                actions: {
+                    voteCaca: document.getElementById('voteCaca'),
+                    voteCerebro: document.getElementById('voteCerebro'),
+                    showStats: document.getElementById('showStats'),
+                    showSettings: document.getElementById('showSettings'),
+                    showAchievements: document.getElementById('showAchievements'),
+                    share: document.getElementById('shareResult'),
+                    pause: document.getElementById('pauseGame'),
+                    reset: document.getElementById('resetGame')
+                },
+                screens: {
+                    stats: document.getElementById('statsScreen'),
+                    settings: document.getElementById('settingsScreen'),
+                    achievements: document.getElementById('achievementsScreen')
+                },
+                stats: {
+                    content: document.getElementById('statsContent')
+                },
+                achievements: {
+                    content: document.getElementById('achievementsContent')
+                },
+                settings: {
+                    notifications: document.getElementById('notificationsToggle'),
+                    vibration: document.getElementById('vibrationToggle'),
+                    sound: document.getElementById('soundToggle'),
+                    pLang: document.getElementById('pLangToggle'),
+                    particles: document.getElementById('particleEffects'),
+                    rainbow: document.getElementById('rainbowBackground'),
+                    exportData: document.getElementById('exportDataBtn'),
+                    exportAI: document.getElementById('exportAIBtn'),
+                    importData: document.getElementById('importDataBtn'),
+                    importText: document.getElementById('importTextarea'),
+                    exportResult: document.getElementById('exportResult'),
+                    exportText: document.getElementById('exportTextarea'),
+                    copyExport: document.getElementById('copyExportBtn'),
+                    clearExport: document.getElementById('clearExportBtn'),
+                    importResult: document.getElementById('importResult')
+                }
+            };
+            
+            // ============================================
+            // FUNCIONES AUXILIARES
+            // ============================================
+            function showScreen(screenName) {
+                document.querySelectorAll('.screen').forEach(s => {
+                    s.classList.remove('active');
+                    s.style.display = 'none';
+                });
+                const screen = document.getElementById(screenName);
+                if (screen) {
+                    screen.style.display = 'block';
+                    screen.classList.add('active');
+                }
+            }
+            
+            function updateElement(id, value) {
+                const el = document.getElementById(id);
+                if (el) el.textContent = value;
+            }
+            
+            function showToast(message, type = 'info', duration = 3000) {
+                const container = document.getElementById('toasterContainer');
+                if (!container) {
+                    const div = document.createElement('div');
+                    div.id = 'toasterContainer';
+                    div.style.cssText = 'position:fixed;top:20px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:10px;max-width:90%;pointer-events:none;';
+                    document.body.appendChild(div);
+                }
+                
+                const toast = document.createElement('div');
+                const colors = {
+                    success: 'rgba(76,175,80,0.2)',
+                    error: 'rgba(255,23,68,0.2)',
+                    warning: 'rgba(255,193,7,0.2)',
+                    info: 'rgba(255,255,255,0.05)',
+                    caca: 'rgba(139,69,19,0.2)'
+                };
+                const borders = {
+                    success: '#4CAF50',
+                    error: '#ff1744',
+                    warning: '#FFC107',
+                    info: '#ff6b6b',
+                    caca: '#8B4513'
+                };
+                const icons = {
+                    success: '✅',
+                    error: '❌',
+                    warning: '⚠️',
+                    info: '💩',
+                    caca: '💩'
+                };
+                
+                toast.style.cssText = `
+                    pointer-events: all;
+                    padding: 12px 16px;
+                    background: ${colors[type] || colors.info};
+                    border-radius: 16px;
+                    border: 2px solid ${borders[type] || borders.info};
+                    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+                    backdrop-filter: blur(10px);
+                    max-width: 350px;
+                    min-width: 200px;
+                    animation: slideInRight 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                    color: white;
+                `;
+                toast.innerHTML = `
+                    <div style="display:flex;align-items:flex-start;gap:10px;">
+                        <span style="font-size:24px;flex-shrink:0;">${icons[type] || '💩'}</span>
+                        <div style="flex:1;">
+                            <p style="margin:0;font-size:14px;line-height:1.4;">${message}</p>
+                        </div>
+                        <button style="background:none;border:none;color:#666;font-size:16px;cursor:pointer;padding:0 5px;flex-shrink:0;" onclick="this.parentElement.parentElement.remove()">✕</button>
+                    </div>
+                `;
+                document.getElementById('toasterContainer').appendChild(toast);
+                
+                setTimeout(() => {
+                    if (toast.parentElement) {
+                        toast.style.animation = 'slideOutRight 0.5s';
+                        setTimeout(() => {
+                            if (toast.parentElement) toast.remove();
+                        }, 500);
+                    }
+                }, duration);
+            }
+            
+            // ============================================
+            // PENSAMIENTOS
+            // ============================================
+            const thoughts = [
+                { text: '¿Los peces sueñan con electricistas?', absurdity: 85 },
+                { text: 'Si el dinero hablara, ¿tendría acento?', absurdity: 75 },
+                { text: '¿Las piedras tienen secretos?', absurdity: 65 },
+                { text: '¿Los espejos nos odian cuando no miramos?', absurdity: 90 },
+                { text: '¿El wifi se enfada si no lo usamos?', absurdity: 70 },
+                { text: '¿Las nubes compiten por ser más esponjosas?', absurdity: 60 },
+                { text: '¿Los calcetines viajan a otro universo?', absurdity: 95 },
+                { text: '¿El número 7 está celoso del 8?', absurdity: 55 },
+                { text: '¿Las puertas se sienten usadas?', absurdity: 50 },
+                { text: '¿El silencio tiene olor a violetas?', absurdity: 80 },
+                { text: '2 + 2 = 4', absurdity: 0 },
+                { text: 'El agua hierve a 100 grados', absurdity: 10 },
+                { text: 'La Tierra gira alrededor del Sol', absurdity: 5 },
+                { text: 'Los humanos necesitan oxígeno', absurdity: 5 },
+                { text: 'El día tiene 24 horas', absurdity: 10 },
+                { text: 'La luna es el satélite de la Tierra', absurdity: 10 },
+                { text: 'Los árboles producen oxígeno', absurdity: 8 },
+                { text: 'El agua es líquida a temperatura ambiente', absurdity: 12 },
+                { text: '¿El agua tiene sed?', absurdity: 90 },
+                { text: '¿El fuego tiene miedo al agua?', absurdity: 55 },
+                { text: '¿La luna le tiene envidia al sol?', absurdity: 60 },
+                { text: '¿Las estrellas se sienten solas?', absurdity: 75 },
+                { text: '¿El universo tiene fronteras?', absurdity: 85 },
+                { text: '¿Los agujeros negros tienen hambre?', absurdity: 70 },
+                { text: '¿La gravedad se cansa de tirar?', absurdity: 65 },
+                { text: '¿El color azul tiene celos del rojo?', absurdity: 92 },
+                { text: '¿Las ideas se pelean en tu cabeza?', absurdity: 88 },
+                { text: '¿El 0 es el número más solitario?', absurdity: 78 },
+                { text: '¿Las letras compiten por salir primero?', absurdity: 82 },
+                { text: '¿El eco se siente repetitivo?', absurdity: 72 }
+            ];
+            
+            let usedThoughts = [];
+            let thoughtHistory = [];
+            
+            function getRandomThought() {
+                const available = thoughts.filter(t => !usedThoughts.includes(t.text));
+                if (available.length === 0) {
+                    usedThoughts = [];
+                    thoughtHistory = [];
+                    return getRandomThought();
+                }
+                const thought = available[Math.floor(Math.random() * available.length)];
+                usedThoughts.push(thought.text);
+                thoughtHistory.push(thought);
+                if (thoughtHistory.length > 50) thoughtHistory.shift();
+                return { ...thought, timestamp: Date.now() };
+            }
+            
+            // ============================================
+            // SISTEMA DE LOGROS
+            // ============================================
+            const achievementDefs = [
+                { id: 'caca_novice', name: '💩 Novato Cagón', threshold: 10, description: 'Haz 10 CACA mentales' },
+                { id: 'caca_pro', name: '🔥 Pro Cagón', threshold: 50, description: 'Haz 50 CACA mentales' },
+                { id: 'caca_legend', name: '👑 Leyenda Cagona', threshold: 100, description: 'Haz 100 CACA mentales' },
+                { id: 'brain_novice', name: '🧠 Novato Cerebral', threshold: 10, description: 'Haz 10 CEREBRO mentales' },
+                { id: 'brain_pro', name: '⚡ Pro Cerebral', threshold: 50, description: 'Haz 50 CEREBRO mentales' },
+                { id: 'brain_legend', name: '🌟 Leyenda Cerebral', threshold: 100, description: 'Haz 100 CEREBRO mentales' },
+                { id: 'streak_5', name: '🔥 Racha 5', threshold: 5, description: 'Consigue una racha de 5' },
+                { id: 'streak_10', name: '💀 Racha 10', threshold: 10, description: 'Consigue una racha de 10' },
+                { id: 'streak_25', name: '🚀 Racha 25', threshold: 25, description: 'Consigue una racha de 25' }
+            ];
+            
+            function checkAchievements() {
+                const newAchievements = [];
+                const g = state.game;
+                
+                for (const def of achievementDefs) {
+                    if (state.unlockedAchievements.some(a => a.id === def.id)) continue;
+                    
+                    let current = 0;
+                    switch (def.id) {
+                        case 'caca_novice': case 'caca_pro': case 'caca_legend':
+                            current = g.cacaPoints;
+                            break;
+                        case 'brain_novice': case 'brain_pro': case 'brain_legend':
+                            current = g.brainPoints;
+                            break;
+                        case 'streak_5': case 'streak_10': case 'streak_25':
+                            current = g.bestStreak;
+                            break;
+                    }
+                    
+                    if (current >= def.threshold) {
+                        state.unlockedAchievements.push({ ...def, unlockedAt: Date.now() });
+                        newAchievements.push(def);
+                    }
+                }
+                
+                return newAchievements;
+            }
+            
+            // ============================================
+            // ACTUALIZAR UI
+            // ============================================
+            function updateGameUI() {
+                const g = state.game;
+                const stats = state.cacaStats;
+                
+                // Estadísticas principales
+                updateElement('scoreDisplay', g.score);
+                updateElement('levelDisplay', g.level);
+                updateElement('levelDisplay2', g.level);
+                updateElement('xpDisplay', g.xp);
+                updateElement('xpDisplay2', g.xp);
+                updateElement('streakDisplay', g.streak);
+                updateElement('cacaCount', g.cacaPoints);
+                updateElement('cerebroCount', g.brainPoints);
+                
+                // Barra de XP
+                const xpPerLevel = 100;
+                const xpInLevel = g.xp % xpPerLevel;
+                const xpPercent = Math.min(100, (xpInLevel / xpPerLevel) * 100);
+                if (DOM.game.xpFill) DOM.game.xpFill.style.width = xpPercent + '%';
+                
+                // Poder CACA
+                const poder = Math.min(100, Math.round(
+                    (g.cacaPoints * 0.25) + (g.streak * 1.5) + (g.level * 1.5)
+                ));
+                stats.poderCaca = poder;
+                if (DOM.game.poderFill) {
+                    DOM.game.poderFill.style.width = poder + '%';
+                    // Cambiar color según nivel
+                    DOM.game.poderFill.className = 'progress-bar-fill power-fill';
+                    if (poder < 30) DOM.game.poderFill.classList.add('low');
+                    else if (poder < 60) DOM.game.poderFill.classList.add('medium');
+                    else DOM.game.poderFill.classList.add('high');
+                }
+                if (DOM.game.poderText) DOM.game.poderText.textContent = poder;
+                
+                // Próximo logro
+                updateNextAchievement();
+                
+                // Tiempo de juego
+                if (g.startTime) {
+                    const elapsed = Math.floor((Date.now() - g.startTime) / 1000);
+                    const minutes = Math.floor(elapsed / 60);
+                    const seconds = elapsed % 60;
+                    updateElement('playTime', `${minutes}m ${seconds}s`);
+                }
+            }
+            
+            function updateNextAchievement() {
+                const g = state.game;
+                let closest = null;
+                let closestDiff = Infinity;
+                
+                for (const def of achievementDefs) {
+                    if (state.unlockedAchievements.some(a => a.id === def.id)) continue;
+                    
+                    let current = 0;
+                    switch (def.id) {
+                        case 'caca_novice': case 'caca_pro': case 'caca_legend':
+                            current = g.cacaPoints;
+                            break;
+                        case 'brain_novice': case 'brain_pro': case 'brain_legend':
+                            current = g.brainPoints;
+                            break;
+                        case 'streak_5': case 'streak_10': case 'streak_25':
+                            current = g.bestStreak;
+                            break;
+                    }
+                    
+                    if (current < def.threshold) {
+                        const diff = def.threshold - current;
+                        if (diff < closestDiff) {
+                            closestDiff = diff;
+                            closest = { ...def, current, remaining: diff };
+                        }
+                    }
+                }
+                
+                // Actualizar barra de progreso del logro
+                const achievementFill = DOM.game.achievementFill;
+                const achievementText = DOM.game.achievementProgressText;
+                const nextName = DOM.game.nextAchievementName;
+                const nextProgress = DOM.game.nextAchievementProgress;
+                
+                if (closest) {
+                    const pct = Math.min(100, (closest.current / closest.threshold) * 100);
+                    if (achievementFill) achievementFill.style.width = pct + '%';
+                    if (achievementText) achievementText.textContent = Math.round(pct) + '%';
+                    if (nextName) nextName.textContent = closest.name;
+                    if (nextProgress) nextProgress.textContent = `${closest.current}/${closest.threshold}`;
+                } else {
+                    if (achievementFill) achievementFill.style.width = '100%';
+                    if (achievementText) achievementText.textContent = '100%';
+                    if (nextName) nextName.textContent = '🏆 ¡Todos completados!';
+                    if (nextProgress) nextProgress.textContent = '🎉';
+                }
+            }
+            
+            function updateVigiaStatus() {
+                const g = state.game;
+                const el = DOM.game.vigia;
+                if (!el) return;
+                
+                const total = g.correctAnswers + g.incorrectAnswers;
+                const accuracy = total > 0 ? Math.round((g.correctAnswers / total) * 100) : 0;
+                const absurdity = g.absurdLevel || 50;
+                
+                let emoji = '🧠', msg = 'Todo bajo control', color = '#4CAF50';
+                if (accuracy > 70 && g.streak > 5) {
+                    emoji = '🌟'; msg = '¡Flow neuronal activado!'; color = '#FFD700';
+                } else if (accuracy < 40) {
+                    emoji = '😰'; msg = 'Necesitas más concentración'; color = '#ff1744';
+                } else if (g.streak > 10) {
+                    emoji = '⚡'; msg = '¡Racha imparable!'; color = '#ff6b6b';
+                }
+                
+                el.innerHTML = `
+                    <span class="vigia-emoji">${emoji}</span>
+                    <span class="vigia-message">${msg}</span>
+                    <div style="font-size:11px;color:#888;margin-left:auto;">
+                        🎯 ${accuracy}% | 💩 ${g.cacaPoints} | 🧠 ${g.brainPoints}
+                    </div>
+                `;
+                el.style.borderColor = color;
+            }
+            
+            // ============================================
+            // TIMER - FUNCIÓN PRINCIPAL REPARADA
+            // ============================================
+            function updateTimer(elapsed, totalTime) {
+                const remaining = Math.max(0, totalTime - elapsed);
+                const percent = (remaining / totalTime) * 100;
+                const seconds = Math.ceil(remaining / 1000);
+                
+                const fill = DOM.game.timerFill;
+                if (fill) {
+                    fill.style.width = Math.max(0, percent) + '%';
+                    fill.classList.remove('warning', 'danger');
+                    if (percent < 15) {
+                        fill.classList.add('danger');
+                    } else if (percent < 30) {
+                        fill.classList.add('warning');
+                    }
+                }
+                
+                const timeLeftEl = DOM.game.timeLeft;
+                if (timeLeftEl) {
+                    timeLeftEl.textContent = `⏱️ ${seconds}s`;
+                    timeLeftEl.classList.remove('warning', 'danger');
+                    if (seconds <= 2) {
+                        timeLeftEl.classList.add('danger');
+                    } else if (seconds <= 4) {
+                        timeLeftEl.classList.add('warning');
+                    }
+                }
+                
+                return remaining;
+            }
+            
+            // ============================================
+            // MOSTRAR PENSAMIENTO
+            // ============================================
+            function showThought(thought) {
+                const el = DOM.game.thought;
+                if (!el) return;
+                
+                el.className = 'thought-bubble';
+                el.textContent = '💭 ' + thought.text;
+                el.style.borderColor = thought.absurdity > 70 ? '#ff6b6b' : thought.absurdity < 30 ? '#4CAF50' : '';
+                el.style.background = `hsla(${200 + (thought.absurdity/100)*160}, 70%, 20%, 0.3)`;
+                
+                const totalTime = 8000;
+                state.thought.current = thought;
+                state.thought.isWaiting = true;
+                state.thought.startTime = Date.now();
+                state.thought.totalTime = totalTime;
+                state.thought.elapsedTime = 0;
+                
+                if (DOM.game.timerFill) {
+                    DOM.game.timerFill.style.width = '100%';
+                    DOM.game.timerFill.classList.remove('warning', 'danger');
+                }
+                if (DOM.game.timeLeft) {
+                    DOM.game.timeLeft.textContent = '⏱️ 8s';
+                    DOM.game.timeLeft.classList.remove('warning', 'danger');
+                }
+                
+                if (state.thought.timeUpdate) {
+                    clearInterval(state.thought.timeUpdate);
+                }
+                
+                state.thought.timeUpdate = setInterval(() => {
+                    if (state.game.isPaused) return;
+                    const elapsed = Date.now() - state.thought.startTime;
+                    state.thought.elapsedTime = elapsed;
+                    const remaining = updateTimer(elapsed, totalTime);
+                    if (remaining <= 0) {
+                        clearInterval(state.thought.timeUpdate);
+                        state.thought.timeUpdate = null;
+                        timeoutThought();
+                    }
+                }, 50);
+                
+                if (state.thought.timer) {
+                    clearTimeout(state.thought.timer);
+                }
+                state.thought.timer = setTimeout(() => {
+                    if (state.thought.isWaiting) {
+                        if (state.thought.timeUpdate) {
+                            clearInterval(state.thought.timeUpdate);
+                            state.thought.timeUpdate = null;
+                        }
+                        timeoutThought();
+                    }
+                }, totalTime);
+            }
+            
+            function clearThought() {
+                const el = DOM.game.thought;
+                if (el) {
+                    el.className = 'thought-bubble';
+                    el.textContent = '💭 Pensando...';
+                    el.style.borderColor = '';
+                    el.style.background = '';
+                }
+                if (DOM.game.timerFill) {
+                    DOM.game.timerFill.style.width = '100%';
+                    DOM.game.timerFill.classList.remove('warning', 'danger');
+                }
+                if (DOM.game.timeLeft) {
+                    DOM.game.timeLeft.textContent = '⏱️ 8s';
+                    DOM.game.timeLeft.classList.remove('warning', 'danger');
+                }
+                state.thought.current = null;
+                state.thought.isWaiting = false;
+                state.thought.elapsedTime = 0;
+            }
+            
+            // ============================================
+            // TIMEOUT DEL PENSAMIENTO - CORREGIDO (error de sintaxis)
+            // ============================================
+            function timeoutThought() {
+                if (!state.thought.isWaiting) return;
+                
+                if (state.thought.timeUpdate) {
+                    clearInterval(state.thought.timeUpdate);
+                    state.thought.timeUpdate = null;
+                }
+                
+                state.game.score = Math.max(0, state.game.score - 5);
+                state.game.xp = Math.max(0, state.game.xp - 3);
+                state.game.streak = 0;
+                state.game.incorrectAnswers++;
+                state.game.totalDecisions++;
+                
+                const el = DOM.game.thought;
+                if (el) {
+                    el.textContent = '⏰ ¡TIEMPO AGOTADO! -5 pts';
+                    el.className = 'thought-bubble';
+                    el.style.borderColor = '#ff1744';
+                    el.style.borderWidth = '3px';
+                    el.style.borderStyle = 'solid';
+                    el.style.background = 'rgba(255,23,68,0.2)';
+                    el.style.transform = 'scale(0.92)';
+                    setTimeout(() => {
+                        if (el) {
+                            el.style.transform = '';
+                            el.style.borderWidth = '';
+                            el.style.borderStyle = '';
+                            el.style.borderColor = '';
+                            el.style.background = '';
+                        }
+                    }, 1500);
+                }
+                
+                showToast('⏰ ¡TIEMPO AGOTADO! -5 pts', 'error', 2000);
+                
+                if (DOM.game.timerFill) {
+                    DOM.game.timerFill.style.width = '0%';
+                    DOM.game.timerFill.classList.remove('warning', 'danger');
+                }
+                if (DOM.game.timeLeft) {
+                    DOM.game.timeLeft.textContent = '⏱️ 0s';
+                    DOM.game.timeLeft.classList.remove('warning', 'danger');
+                }
+                
+                state.thought.isWaiting = false;
+                state.thought.current = null;
+                
+                updateGameUI();
+                updateVigiaStatus();
+                
+                setTimeout(() => {
+                    if (state.game.isPlaying && !state.game.isPaused) {
+                        generateThought();
+                    }
+                }, 2000);
+            }
+            
+            // ============================================
+            // GENERAR PENSAMIENTO
+            // ============================================
+            function generateThought() {
+                if (state.game.isPaused) {
+                    setTimeout(generateThought, 1000);
+                    return;
+                }
+                if (state.thought.isWaiting) return;
+                if (!state.game.isPlaying) return;
+                
+                const thought = getRandomThought();
+                showThought(thought);
+            }
+            
+            // ============================================
+            // VOTAR
+            // ============================================
+            function vote(decision) {
+                if (!state.thought.isWaiting || !state.thought.current) {
+                    showToast('¡Espera a que aparezca un pensamiento!', 'warning', 1500);
+                    return;
+                }
+                
+                const thought = state.thought.current;
+                const timeToDecide = Date.now() - state.thought.startTime;
+                
+                if (state.thought.timer) {
+                    clearTimeout(state.thought.timer);
+                    state.thought.timer = null;
+                }
+                if (state.thought.timeUpdate) {
+                    clearInterval(state.thought.timeUpdate);
+                    state.thought.timeUpdate = null;
+                }
+                
+                const esAbsurdo = thought.absurdity > 50;
+                const acierto = (decision === 'caca' && esAbsurdo) || (decision === 'cerebro' && !esAbsurdo);
+                
+                let points = 0;
+                let bonus = 0;
+                
+                if (acierto) {
+                    points = esAbsurdo ? 10 : 5;
+                    if (timeToDecide < 1500) {
+                        bonus = 3;
+                        state.cacaStats.cacaPerfecta++;
+                    } else if (timeToDecide < 3000) {
+                        bonus = 1;
+                    }
+                    if (state.game.streak > 0) {
+                        bonus += Math.min(state.game.streak * 0.2, 3);
+                    }
+                    points += Math.round(bonus);
+                    state.game.correctAnswers++;
+                    state.game.streak++;
+                    if (state.game.streak > state.game.bestStreak) {
+                        state.game.bestStreak = state.game.streak;
+                    }
+                    if (esAbsurdo) {
+                        state.game.cacaPoints += points;
+                        state.game.absurdLevel = Math.min(100, state.game.absurdLevel + 0.5);
+                    } else {
+                        state.game.brainPoints += points;
+                        state.game.absurdLevel = Math.max(0, state.game.absurdLevel - 0.3);
+                    }
+                    state.game.score += points;
+                    state.game.xp += points;
+                    state.game.combo++;
+                    if (state.game.combo > state.game.maxCombo) {
+                        state.game.maxCombo = state.game.combo;
+                    }
+                } else {
+                    points = -3;
+                    state.game.score = Math.max(0, state.game.score + points);
+                    state.game.xp = Math.max(0, state.game.xp + points);
+                    state.game.streak = 0;
+                    state.game.combo = 0;
+                    state.game.incorrectAnswers++;
+                    if (decision === 'caca') {
+                        state.game.cacaPoints = Math.max(0, state.game.cacaPoints + points);
+                    } else {
+                        state.game.brainPoints = Math.max(0, state.game.brainPoints + points);
+                    }
+                }
+                
+                state.game.totalDecisions++;
+                
+                const oldLevel = state.game.level;
+                state.game.level = Math.floor(state.game.xp / 100) + 1;
+                
+                if (state.game.level > oldLevel) {
+                    showToast(`🚀 ¡SUBISTE DE NIVEL! Nivel ${state.game.level}`, 'success', 3000);
+                    if (state.game.level % 3 === 0) {
+                        showConfetti(30);
+                    }
+                }
+                
+                const total = state.game.correctAnswers + state.game.incorrectAnswers;
+                state.game.accuracy = total > 0 ? Math.round((state.game.correctAnswers / total) * 100) : 0;
+                
+                state.game.responseTimes.push(timeToDecide);
+                const avg = state.game.responseTimes.reduce((a, b) => a + b, 0) / state.game.responseTimes.length;
+                state.game.avgResponseTime = Math.round(avg);
+                
+                const el = DOM.game.thought;
+                if (el) {
+                    if (acierto) {
+                        if (esAbsurdo) {
+                            el.textContent = `💩 ¡CACA CORRECTA! +${points} pts 🎉`;
+                            el.className = 'thought-bubble feedback-success';
+                            el.style.borderColor = '#4CAF50';
+                            el.style.background = 'rgba(76, 175, 80, 0.25)';
+                            el.style.transform = 'scale(1.05)';
+                            showConfetti(10);
+                        } else {
+                            el.textContent = `🧠 ¡CEREBRO CORRECTO! +${points} pts 🧠`;
+                            el.className = 'thought-bubble feedback-success';
+                            el.style.borderColor = '#4d96ff';
+                            el.style.background = 'rgba(77, 150, 255, 0.25)';
+                            el.style.transform = 'scale(1.05)';
+                            showConfetti(8);
+                        }
+                        playSuccessSound();
+                    } else {
+                        el.textContent = `❌ ¡ERROR! Era ${esAbsurdo ? 'CACA' : 'CEREBRO'} ${points}pts`;
+                        el.className = 'thought-bubble feedback-error';
+                        el.style.borderColor = '#ff1744';
+                        el.style.background = 'rgba(255,23,68,0.2)';
+                        el.style.transform = 'scale(0.92)';
+                        if (navigator.vibrate) navigator.vibrate(30);
+                        playErrorSound();
+                    }
+                    setTimeout(() => {
+                        if (el) {
+                            el.className = 'thought-bubble';
+                            el.style.transform = '';
+                            el.style.borderColor = '';
+                            el.style.background = '';
+                        }
+                    }, 1500);
+                }
+                
+                if (DOM.game.timerFill) {
+                    DOM.game.timerFill.style.width = '0%';
+                    DOM.game.timerFill.classList.remove('warning', 'danger');
+                }
+                if (DOM.game.timeLeft) {
+                    DOM.game.timeLeft.textContent = '⏱️ 0s';
+                    DOM.game.timeLeft.classList.remove('warning', 'danger');
+                }
+                
+                const newAchievements = checkAchievements();
+                for (const ach of newAchievements) {
+                    showToast(`🏆 ¡${ach.name}! ${ach.description}`, 'success', 5000);
+                    showConfetti(30);
+                    playAchievementSound();
+                }
+                
+                if (acierto) {
+                    const msgs = esAbsurdo ? 
+                        ['💩 ¡CACA! +' + points + ' pts', '🔥 ¡Absurdo! +' + points + ' pts'] :
+                        ['🧠 ¡Cerebro! +' + points + ' pts', '💡 ¡Lógica! +' + points + ' pts'];
+                    const msg = msgs[Math.floor(Math.random() * msgs.length)];
+                    if (bonus > 0) showToast(msg + ` ⚡ +${bonus} bonus`, 'success', 2000);
+                } else {
+                    showToast(`❌ Fallaste! Era ${esAbsurdo ? 'CACA' : 'CEREBRO'}`, 'error', 2000);
+                }
+                
+                state.thought.isWaiting = false;
+                state.thought.current = null;
+                
+                updateGameUI();
+                updateVigiaStatus();
+                
+                state.history.push({
+                    thought: thought.text,
+                    decision: decision,
+                    acierto: acierto,
+                    points: points,
+                    timeToDecide: timeToDecide,
+                    timestamp: Date.now()
+                });
+                if (state.history.length > 100) state.history.shift();
+                
+                setTimeout(() => {
+                    if (state.game.isPlaying && !state.game.isPaused) {
+                        generateThought();
+                    }
+                }, 1500);
+            }
+            
+            // ============================================
+            // EFECTOS
+            // ============================================
+            function showConfetti(count = 20) {
+                const colors = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#ff1744', '#ff9100', '#9C27B0'];
+                for (let i = 0; i < count; i++) {
+                    const piece = document.createElement('div');
+                    piece.style.cssText = `
+                        position: fixed;
+                        left: ${Math.random() * 100}%;
+                        top: -10px;
+                        width: ${6 + Math.random() * 8}px;
+                        height: ${6 + Math.random() * 8}px;
+                        background: ${colors[Math.floor(Math.random() * colors.length)]};
+                        border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+                        z-index: 99999;
+                        pointer-events: none;
+                        animation: confettiFall ${2 + Math.random() * 2}s linear forwards;
+                        animation-delay: ${Math.random() * 0.5}s;
+                        transform: rotate(${Math.random() * 360}deg);
+                    `;
+                    document.body.appendChild(piece);
+                    setTimeout(() => { if (piece.parentElement) piece.remove(); }, 5000);
+                }
+            }
+            
+            function cacaExplosion() {
+                const emojis = ['💩', '💨', '🔥', '⚡', '🌟', '🎯', '🚀', '💀', '🤪', '✨'];
+                for (let i = 0; i < 30; i++) {
+                    const p = document.createElement('div');
+                    const angle = Math.random() * Math.PI * 2;
+                    const dist = 100 + Math.random() * 300;
+                    p.style.cssText = `
+                        position: fixed;
+                        font-size: ${20 + Math.random() * 40}px;
+                        left: ${20 + Math.random() * 60}%;
+                        top: ${20 + Math.random() * 60}%;
+                        z-index: 99999;
+                        pointer-events: none;
+                        animation: cacaExplosion ${1 + Math.random() * 2}s ease-out forwards;
+                        --tx: ${Math.cos(angle) * dist}px;
+                        --ty: ${Math.sin(angle) * dist}px;
+                        --rot: ${Math.random() * 720}deg;
+                    `;
+                    p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    document.body.appendChild(p);
+                    setTimeout(() => { if (p.parentElement) p.remove(); }, 3000);
+                }
+                showToast('💥 ¡EXPLOSIÓN DE CACA!', 'caca', 1500);
+            }
+            
+            // ============================================
+            // SONIDOS
+            // ============================================
+            function playSuccessSound() {
+                if (!state.settings.sound) return;
+                try {
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    [523, 659, 784].forEach((freq, i) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.08);
+                        gain.gain.setValueAtTime(0.12, ctx.currentTime + i * 0.08);
+                        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + i * 0.08 + 0.12);
+                        osc.start(ctx.currentTime + i * 0.08);
+                        osc.stop(ctx.currentTime + i * 0.08 + 0.12);
+                    });
+                } catch (e) {}
+            }
+            
+            function playErrorSound() {
+                if (!state.settings.sound) return;
+                try {
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.frequency.setValueAtTime(400, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.15);
+                } catch (e) {}
+            }
+            
+            function playAchievementSound() {
+                if (!state.settings.sound) return;
+                try {
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    [523, 659, 784, 1047].forEach((freq, i) => {
+                        const osc = ctx.createOscillator();
+                        const gain = ctx.createGain();
+                        osc.connect(gain);
+                        gain.connect(ctx.destination);
+                        osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.1);
+                        gain.gain.setValueAtTime(0.15, ctx.currentTime + i * 0.1);
+                        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + i * 0.1 + 0.15);
+                        osc.start(ctx.currentTime + i * 0.1);
+                        osc.stop(ctx.currentTime + i * 0.1 + 0.15);
+                    });
+                } catch (e) {}
+            }
+            
+            // ============================================
+            // MOSTRAR ESTADÍSTICAS
+            // ============================================
+            function showStats() {
+                const g = state.game;
+                const stats = state.cacaStats;
+                const total = g.correctAnswers + g.incorrectAnswers;
+                
+                const content = DOM.stats.content;
+                if (!content) return;
+                
+                content.innerHTML = `
+                    <div class="stats-absurd-grid">
+                        <div class="stat-absurd-card">
+                            <span class="stat-emoji">👤</span>
+                            <h3>${state.user.username}</h3>
+                            <p>🎯 Nivel de absurdo: ${Math.round(g.absurdLevel)}%</p>
+                            <p>⏱️ Tiempo jugando: ${g.playTime || '0m'}</p>
+                            <p>🏆 Nivel: ${g.level}</p>
+                        </div>
+                        <div class="stat-absurd-card">
+                            <span class="stat-emoji">🎮</span>
+                            <h3>📊 Progreso</h3>
+                            <p>🏆 Nivel: ${g.level}</p>
+                            <p>⭐ XP: ${g.xp}</p>
+                            <p>💩 CACA: ${g.cacaPoints}</p>
+                            <p>🧠 CEREBRO: ${g.brainPoints}</p>
+                            <p>🔥 Racha: ${g.streak}</p>
+                            <p>🎯 Precisión: ${total > 0 ? Math.round((g.correctAnswers/total)*100) : 0}%</p>
+                        </div>
+                        <div class="stat-absurd-card">
+                            <span class="stat-emoji">🏆</span>
+                            <h3>🏆 Logros</h3>
+                            <p>Desbloqueados: ${state.unlockedAchievements.length}/${achievementDefs.length}</p>
+                            <p>Mejor racha: ${g.bestStreak}</p>
+                            <p>Combo máximo: ${g.maxCombo}</p>
+                            <p>Respuestas rápidas: ${stats.cacaPerfecta}</p>
+                        </div>
+                        <div class="stat-absurd-card">
+                            <span class="stat-emoji">🧠</span>
+                            <h3>🧠 RCN</h3>
+                            <p>Repeticiones exitosas: ${stats.repeticionesExitosas}</p>
+                            <p>Repeticiones fallidas: ${stats.repeticionesFallidas}</p>
+                            <p>Aprendizaje: ${stats.aprendizaje}%</p>
+                            <p>💪 CACA POWER: ${stats.poderCaca}%</p>
+                        </div>
+                    </div>
+                    <div class="stats-absurd-footer">
+                        <p class="caca-frase">💩 "${thoughts[Math.floor(Math.random() * thoughts.length)].text}"</p>
+                    </div>
+                `;
+                
+                showScreen('statsScreen');
+            }
+            
+            // ============================================
+            // MOSTRAR LOGROS
+            // ============================================
+            function showAchievements() {
+                const content = DOM.achievements.content;
+                if (!content) return;
+                
+                let html = `
+                    <div class="achievements-absurd-header">
+                        <span class="achievement-emoji">🏆</span>
+                        <h2>🎯 LOGROS</h2>
+                        <div class="achievement-stats">
+                            <span>${state.unlockedAchievements.length}/${achievementDefs.length}</span>
+                            <span>${achievementDefs.length > 0 ? Math.round((state.unlockedAchievements.length/achievementDefs.length)*100) : 0}%</span>
+                        </div>
+                    </div>
+                    <div class="achievements-absurd-grid">
+                `;
+                
+                if (achievementDefs.length === 0) {
+                    html += `<p class="no-achievements">🤪 ¡No hay logros disponibles!</p>`;
+                } else {
+                    for (const def of achievementDefs) {
+                        const unlocked = state.unlockedAchievements.some(a => a.id === def.id);
+                        html += `
+                            <div class="achievement-absurd-card ${unlocked ? 'unlocked' : 'locked'}">
+                                <div class="achievement-icon">${unlocked ? '✨' : '🔒'}</div>
+                                <div class="achievement-info">
+                                    <h4>${def.name}</h4>
+                                    <p>${def.description}</p>
+                                    <div class="achievement-progress">
+                                        ${unlocked ? '✅ ¡Desbloqueado!' : `🔜 ${def.threshold}`}
+                                    </div>
+                                    ${unlocked ? `<span class="achievement-date">📅 ¡Conseguido!</span>` : ''}
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+                
+                html += `
+                    </div>
+                    <div class="achievements-absurd-footer">
+                        <p class="caca-frase">💩 "Cada logro es una caca mental más cerca de la grandeza"</p>
+                    </div>
+                `;
+                
+                content.innerHTML = html;
+                showScreen('achievementsScreen');
+            }
+            
+            // ============================================
+            // PAUSA
+            // ============================================
+            function togglePause() {
+                state.game.isPaused = !state.game.isPaused;
+                const btn = DOM.actions.pause;
+                
+                if (state.game.isPaused) {
+                    btn.textContent = '▶️ Continuar';
+                    btn.classList.add('btn-pause');
+                    showToast('⏸️ Juego en pausa', 'info', 1500);
+                    if (state.thought.timeUpdate) {
+                        clearInterval(state.thought.timeUpdate);
+                        state.thought.timeUpdate = null;
+                    }
+                    if (state.thought.timer) {
+                        clearTimeout(state.thought.timer);
+                        state.thought.timer = null;
+                    }
+                } else {
+                    btn.textContent = '⏸️ Pausa';
+                    showToast('▶️ ¡Juego reanudado!', 'success', 1500);
+                    if (!state.thought.isWaiting) {
+                        generateThought();
+                    } else if (state.thought.current) {
+                        const elapsed = Date.now() - state.thought.startTime;
+                        const remaining = Math.max(0, state.thought.totalTime - elapsed);
+                        if (remaining > 0) {
+                            updateTimer(elapsed, state.thought.totalTime);
+                            const newStartTime = Date.now();
+                            state.thought.startTime = newStartTime - elapsed;
+                            state.thought.timeUpdate = setInterval(() => {
+                                if (state.game.isPaused) return;
+                                const newElapsed = Date.now() - state.thought.startTime;
+                                const newRemaining = updateTimer(newElapsed, state.thought.totalTime);
+                                if (newRemaining <= 0) {
+                                    clearInterval(state.thought.timeUpdate);
+                                    state.thought.timeUpdate = null;
+                                    timeoutThought();
+                                }
+                            }, 50);
+                            state.thought.timer = setTimeout(() => {
+                                if (state.thought.isWaiting) {
+                                    if (state.thought.timeUpdate) {
+                                        clearInterval(state.thought.timeUpdate);
+                                        state.thought.timeUpdate = null;
+                                    }
+                                    timeoutThought();
+                                }
+                            }, remaining);
+                        } else {
+                            timeoutThought();
+                        }
+                    }
+                }
+            }
+            
+            // ============================================
+            // RESET
+            // ============================================
+            function resetGame() {
+                if (!state.game.isPlaying) {
+                    showToast('El juego no está activo', 'warning');
+                    return;
+                }
+                if (!confirm('💩 ¿Resetear? ¡Perderás todo tu progreso!')) return;
+                
+                if (state.thought.timer) {
+                    clearTimeout(state.thought.timer);
+                    state.thought.timer = null;
+                }
+                if (state.thought.timeUpdate) {
+                    clearInterval(state.thought.timeUpdate);
+                    state.thought.timeUpdate = null;
+                }
+                
+                state.game.score = 0;
+                state.game.level = 1;
+                state.game.xp = 0;
+                state.game.streak = 0;
+                state.game.cacaPoints = 0;
+                state.game.brainPoints = 0;
+                state.game.totalDecisions = 0;
+                state.game.correctAnswers = 0;
+                state.game.incorrectAnswers = 0;
+                state.game.accuracy = 0;
+                state.game.avgResponseTime = 0;
+                state.game.responseTimes = [];
+                state.game.absurdLevel = state.user.absurdLevel || 50;
+                state.game.startTime = Date.now();
+                state.game.playTime = 0;
+                state.game.bestStreak = 0;
+                state.game.combo = 0;
+                state.game.maxCombo = 0;
+                
+                state.cacaStats.poderCaca = 0;
+                state.cacaStats.rachaMaxCaca = 0;
+                state.cacaStats.cacaPerfecta = 0;
+                state.cacaStats.repeticionesExitosas = 0;
+                state.cacaStats.repeticionesFallidas = 0;
+                state.cacaStats.aprendizaje = 0;
+                
+                usedThoughts = [];
+                thoughtHistory = [];
+                state.history = [];
+                state.unlockedAchievements = [];
+                state.thought.isWaiting = false;
+                state.thought.current = null;
+                state.game.isPaused = false;
+                DOM.actions.pause.textContent = '⏸️ Pausa';
+                DOM.actions.pause.classList.add('btn-pause');
+                
+                if (DOM.game.timerFill) {
+                    DOM.game.timerFill.style.width = '100%';
+                    DOM.game.timerFill.classList.remove('warning', 'danger');
+                }
+                if (DOM.game.timeLeft) {
+                    DOM.game.timeLeft.textContent = '⏱️ 8s';
+                    DOM.game.timeLeft.classList.remove('warning', 'danger');
+                }
+                
+                clearThought();
+                updateGameUI();
+                updateVigiaStatus();
+                updateNextAchievement();
+                
+                showToast('🔄 ¡Juego reiniciado!', 'success', 2000);
+                
+                setTimeout(() => {
+                    if (state.game.isPlaying && !state.game.isPaused) {
+                        generateThought();
+                    }
+                }, 1000);
+            }
+            
+            // ============================================
+            // COMPARTIR
+            // ============================================
+            function shareResult() {
+                const g = state.game;
+                const total = g.correctAnswers + g.incorrectAnswers;
+                const accuracy = total > 0 ? Math.round((g.correctAnswers / total) * 100) : 0;
+                const text = `💩 CACA BRAIN - Mis stats:
+🎮 Score: ${g.score}
+🏆 Nivel: ${g.level}
+⭐ XP: ${g.xp}
+🔥 Racha: ${g.streak}
+💩 CACA: ${g.cacaPoints}
+🧠 CEREBRO: ${g.brainPoints}
+🎯 Precisión: ${accuracy}%
+💪 CACA POWER: ${state.cacaStats.poderCaca}%
+🏆 Logros: ${state.unlockedAchievements.length}/${achievementDefs.length}
+¡Únete al absurdo! 🚀`;
+                if (navigator.share) {
+                    navigator.share({ title: 'Mi CACA BRAIN', text }).catch(() => {});
+                } else {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showToast('📋 ¡Texto copiado! Comparte tu absurdez', 'success', 2000);
+                    }).catch(() => {
+                        showToast('Error al compartir', 'error');
+                    });
+                }
+            }
+            
+            // ============================================
+            // CONFIGURACIÓN
+            // ============================================
+            function loadSettings() {
+                const saved = localStorage.getItem('cacaBrainSettings');
+                if (saved) {
+                    try {
+                        const settings = JSON.parse(saved);
+                        state.settings = { ...state.settings, ...settings };
+                    } catch (e) {}
+                }
+                const s = state.settings;
+                if (DOM.settings.notifications) DOM.settings.notifications.checked = s.notifications;
+                if (DOM.settings.vibration) DOM.settings.vibration.checked = s.vibration;
+                if (DOM.settings.sound) DOM.settings.sound.checked = s.sound;
+                if (DOM.settings.pLang) DOM.settings.pLang.checked = s.pLang;
+                if (DOM.settings.particles) DOM.settings.particles.checked = s.particles;
+                if (DOM.settings.rainbow) DOM.settings.rainbow.checked = s.rainbow;
+            }
+            
+            function saveSettings() {
+                const s = state.settings;
+                s.notifications = DOM.settings.notifications?.checked ?? true;
+                s.vibration = DOM.settings.vibration?.checked ?? true;
+                s.sound = DOM.settings.sound?.checked ?? true;
+                s.pLang = DOM.settings.pLang?.checked ?? true;
+                s.particles = DOM.settings.particles?.checked ?? true;
+                s.rainbow = DOM.settings.rainbow?.checked ?? false;
+                localStorage.setItem('cacaBrainSettings', JSON.stringify(s));
+                document.body.classList.toggle('rainbow-mode', s.rainbow);
+                showToast('⚙️ Configuración guardada', 'success', 1500);
+            }
+            
+            function exportData() {
+                const data = {
+                    version: '2.0.0',
+                    timestamp: Date.now(),
+                    user: state.user,
+                    game: {
+                        score: state.game.score,
+                        level: state.game.level,
+                        xp: state.game.xp,
+                        streak: state.game.streak,
+                        cacaPoints: state.game.cacaPoints,
+                        brainPoints: state.game.brainPoints,
+                        bestStreak: state.game.bestStreak,
+                        maxCombo: state.game.maxCombo,
+                        accuracy: state.game.accuracy,
+                        avgResponseTime: state.game.avgResponseTime
+                    },
+                    stats: state.cacaStats,
+                    unlockedAchievements: state.unlockedAchievements,
+                    history: state.history.slice(-20),
+                    settings: state.settings
+                };
+                const json = JSON.stringify(data, null, 2);
+                DOM.settings.exportResult.style.display = 'block';
+                DOM.settings.exportText.value = json;
+                showToast('📤 Datos exportados', 'success', 1500);
+            }
+            
+            function exportAI() {
+                const data = {
+                    version: '2.0.0',
+                    timestamp: Date.now(),
+                    user: state.user,
+                    game: {
+                        score: state.game.score,
+                        level: state.game.level,
+                        xp: state.game.xp,
+                        streak: state.game.streak,
+                        cacaPoints: state.game.cacaPoints,
+                        brainPoints: state.game.brainPoints,
+                        accuracy: state.game.accuracy,
+                        avgResponseTime: state.game.avgResponseTime,
+                        bestStreak: state.game.bestStreak,
+                        maxCombo: state.game.maxCombo
+                    },
+                    stats: state.cacaStats,
+                    achievements: state.unlockedAchievements,
+                    decisions: state.history.slice(-30).map(h => ({
+                        thought: h.thought,
+                        decision: h.decision,
+                        acierto: h.acierto,
+                        timeToDecide: h.timeToDecide
+                    }))
+                };
+                const json = JSON.stringify(data, null, 2);
+                DOM.settings.exportResult.style.display = 'block';
+                DOM.settings.exportText.value = json;
+                showToast('🤖 Datos para IA exportados', 'success', 1500);
+            }
+            
+            function importData() {
+                const text = DOM.settings.importText.value.trim();
+                if (!text) {
+                    showToast('📥 Pega un JSON válido', 'warning');
+                    return;
+                }
+                try {
+                    const data = JSON.parse(text);
+                    if (data.user) {
+                        state.user.username = data.user.username || state.user.username;
+                        state.user.absurdLevel = data.user.absurdLevel || state.user.absurdLevel;
+                        DOM.game.username.textContent = state.user.username;
+                    }
+                    if (data.game) {
+                        state.game.score = data.game.score || 0;
+                        state.game.level = data.game.level || 1;
+                        state.game.xp = data.game.xp || 0;
+                        state.game.streak = data.game.streak || 0;
+                        state.game.cacaPoints = data.game.cacaPoints || 0;
+                        state.game.brainPoints = data.game.brainPoints || 0;
+                        state.game.bestStreak = data.game.bestStreak || 0;
+                        state.game.maxCombo = data.game.maxCombo || 0;
+                    }
+                    if (data.stats) {
+                        state.cacaStats = { ...state.cacaStats, ...data.stats };
+                    }
+                    if (data.unlockedAchievements) {
+                        state.unlockedAchievements = data.unlockedAchievements;
+                    }
+                    updateGameUI();
+                    updateVigiaStatus();
+                    updateNextAchievement();
+                    DOM.settings.importResult.style.display = 'block';
+                    DOM.settings.importResult.innerHTML = `
+                        <div style="color:#4CAF50;padding:10px;background:rgba(76,175,80,0.1);border-radius:10px;border:1px solid #4CAF50;">
+                            ✅ ¡Datos importados correctamente!
+                        </div>
+                    `;
+                    showToast('📥 Datos importados', 'success', 2000);
+                } catch (e) {
+                    DOM.settings.importResult.style.display = 'block';
+                    DOM.settings.importResult.innerHTML = `
+                        <div style="color:#ff1744;padding:10px;background:rgba(255,23,68,0.1);border-radius:10px;border:1px solid #ff1744;">
+                            ❌ Error al importar: ${e.message}
+                        </div>
+                    `;
+                    showToast('❌ Error al importar', 'error', 2000);
+                }
+            }
+            
+            // ============================================
+            // INICIO DEL JUEGO
+            // ============================================
+            function startGame() {
+                const username = DOM.register.username.value.trim() || 'ProCagador';
+                const absurdLevel = parseInt(DOM.register.absurdLevel.value) || 50;
+                const groqKey = DOM.register.groqKey.value || null;
+                
+                state.user.username = username;
+                state.user.absurdLevel = absurdLevel;
+                state.user.groqApiKey = groqKey;
+                state.game.isPlaying = true;
+                state.game.startTime = Date.now();
+                state.game.absurdLevel = absurdLevel;
+                state.game.isPaused = false;
+                
+                DOM.game.username.textContent = username;
+                showScreen('gameScreen');
+                showToast(`🎮 ¡Bienvenido ${username}! La caca mental te espera`, 'success', 3000);
+                updateGameUI();
+                updateVigiaStatus();
+                updateNextAchievement();
+                
+                setTimeout(() => {
+                    generateThought();
+                }, 1000);
+            }
+            
+            // ============================================
+            // INICIALIZAR EVENTOS
+            // ============================================
+            function init() {
+                DOM.register.absurdLevel.addEventListener('input', function() {
+                    DOM.register.absurdDisplay.textContent = this.value + '%';
+                });
+                
+                DOM.register.startBtn.addEventListener('click', startGame);
+                DOM.register.startBtn.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    startGame();
+                });
+                
+                DOM.register.username.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') startGame();
+                });
+                DOM.register.groqKey.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') startGame();
+                });
+                
+                DOM.actions.voteCaca.addEventListener('click', () => vote('caca'));
+                DOM.actions.voteCerebro.addEventListener('click', () => vote('cerebro'));
+                
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === '1' || e.key === 'c' || e.key === 'C') {
+                        e.preventDefault();
+                        vote('caca');
+                    } else if (e.key === '2' || e.key === 'b' || e.key === 'B') {
+                        e.preventDefault();
+                        vote('cerebro');
+                    } else if (e.key === ' ' || e.key === 'Space') {
+                        e.preventDefault();
+                        cacaExplosion();
+                    } else if (e.key === 'p' || e.key === 'P') {
+                        e.preventDefault();
+                        togglePause();
+                    } else if (e.key === 'r' || e.key === 'R') {
+                        if (!e.ctrlKey) {
+                            e.preventDefault();
+                            resetGame();
+                        }
+                    }
+                });
+                
+                DOM.actions.showStats.addEventListener('click', showStats);
+                DOM.actions.showAchievements.addEventListener('click', showAchievements);
+                DOM.actions.pause.addEventListener('click', togglePause);
+                DOM.actions.reset.addEventListener('click', resetGame);
+                DOM.actions.share.addEventListener('click', shareResult);
+                
+                DOM.actions.showSettings.addEventListener('click', () => {
+                    loadSettings();
+                    showScreen('settingsScreen');
+                });
+                
+                DOM.settings.notifications.addEventListener('change', saveSettings);
+                DOM.settings.vibration.addEventListener('change', saveSettings);
+                DOM.settings.sound.addEventListener('change', saveSettings);
+                DOM.settings.pLang.addEventListener('change', saveSettings);
+                DOM.settings.particles.addEventListener('change', saveSettings);
+                DOM.settings.rainbow.addEventListener('change', saveSettings);
+                
+                DOM.settings.exportData.addEventListener('click', exportData);
+                DOM.settings.exportAI.addEventListener('click', exportAI);
+                DOM.settings.importData.addEventListener('click', importData);
+                
+                DOM.settings.copyExport.addEventListener('click', () => {
+                    DOM.settings.exportText.select();
+                    document.execCommand('copy');
+                    showToast('📋 Copiado al portapapeles', 'success', 1500);
+                });
+                
+                DOM.settings.clearExport.addEventListener('click', () => {
+                    DOM.settings.exportResult.style.display = 'none';
+                    DOM.settings.exportText.value = '';
+                });
+                
+                document.querySelectorAll('.btn-back').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const screen = this.closest('.screen');
+                        if (screen) screen.style.display = 'none';
+                        showScreen('gameScreen');
+                    });
+                });
+                
+                const saved = localStorage.getItem('cacaBrainGame');
+                if (saved) {
+                    try {
+                        const data = JSON.parse(saved);
+                        state.game.score = data.score || 0;
+                        state.game.level = data.level || 1;
+                        state.game.xp = data.xp || 0;
+                        state.game.streak = data.streak || 0;
+                        state.game.cacaPoints = data.cacaPoints || 0;
+                        state.game.brainPoints = data.brainPoints || 0;
+                        state.game.bestStreak = data.bestStreak || 0;
+                        state.game.maxCombo = data.maxCombo || 0;
+                        state.cacaStats = data.stats || state.cacaStats;
+                        state.unlockedAchievements = data.achievements || [];
+                        if (data.username) {
+                            DOM.game.username.textContent = data.username;
+                            state.user.username = data.username;
+                        }
+                    } catch (e) {}
+                }
+                
+                setInterval(() => {
+                    localStorage.setItem('cacaBrainGame', JSON.stringify({
+                        username: state.user.username,
+                        score: state.game.score,
+                        level: state.game.level,
+                        xp: state.game.xp,
+                        streak: state.game.streak,
+                        cacaPoints: state.game.cacaPoints,
+                        brainPoints: state.game.brainPoints,
+                        bestStreak: state.game.bestStreak,
+                        maxCombo: state.game.maxCombo,
+                        stats: state.cacaStats,
+                        achievements: state.unlockedAchievements
+                    }));
+                }, 30000);
+                
+                console.log('💩 CACA BRAIN - Reparado y funcionando!');
+                console.log('🎮 Teclas: 1=CACA, 2=CEREBRO, Espacio=Explosión, P=Pausa, R=Reset');
+                console.log('📊 Las 3 barras significan:');
+                console.log('   1️⃣ ⭐ NIVEL: Progreso de XP para subir de nivel');
+                console.log('   2️⃣ 💪 PODER CACA: Nivel de poder acumulado (0-100%)');
+                console.log('   3️⃣ 🏆 PRÓXIMO LOGRO: Progreso hacia el siguiente logro');
+            }
+            
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+            
+        })();
+    </script>
+    
+</body>
+</html>

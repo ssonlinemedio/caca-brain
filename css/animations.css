@@ -1,0 +1,70 @@
+/* Animaciones varias */
+
+/* Shake */
+@keyframes shake {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Float */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Rotate */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 2s linear infinite;
+}
+
+/* Confetti (para logros) */
+@keyframes confetti-fall {
+  0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+.confetti-piece {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  animation: confetti-fall 3s linear forwards;
+  pointer-events: none;
+  z-index: 99999;
+}
+
+/* Pulse */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Rainbow border */
+@keyframes rainbow-border {
+  0% { border-color: #ff6b6b; }
+  25% { border-color: #ffd93d; }
+  50% { border-color: #6bcb77; }
+  75% { border-color: #4d96ff; }
+  100% { border-color: #ff6b6b; }
+}
+
+.rainbow-border {
+  animation: rainbow-border 3s linear infinite;
+}
